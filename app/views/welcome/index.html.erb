@@ -2,7 +2,15 @@
 
 <h2><%= @message %></h2>
 <input id="search-input" class="controls" type="text" placeholder="Search Address">
-<div id="search-map"></div>
+<div class="map-reviews-container">
+	<div id="search-map"></div>
+	<div>
+<!-- 		<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:EiwyNCBXaWxsaWFtIFN0LCBNZWxib3VybmUgVklDIDMwMDAsIEF1c3RyYWxpYQ&key=AIzaSyCfyKL3I9UtFtaDAr0EPitr32-lq-Qik5w" allowfullscreen></iframe> -->
+	</div>
+	<div class="reviews-container">
+	
+	</div>
+</div>
 
 <script>
 
@@ -18,8 +26,8 @@
         	zoom: 15
        	});
 
-
 		var input = document.querySelector('#search-input');
+
 		var searchBox = new google.maps.places.SearchBox(input);
 		//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // puts the search box on the map, probably don't need
 
@@ -27,12 +35,13 @@
 			searchBox.setBounds(map.getBounds());
 		});
 
-
 		var markers = [];
 		// Listen for the event fired when the user selects a prediction and retrieve
 		// more details for that place.
 		searchBox.addListener('places_changed', function() {
 			var places = searchBox.getPlaces();
+
+			// debugger;
 
 			if (places.length == 0) {
 				return;
@@ -112,6 +121,9 @@
             } 
 		})
 	}
+
+
+
 </script>
 
 <script async defer
