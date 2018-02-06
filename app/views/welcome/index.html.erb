@@ -1,14 +1,13 @@
 <h1>GoodRents</h1>
 
-<h2><%= @message %></h2>
 <input id="search-input" class="controls" type="text" placeholder="Search Address">
 <div class="map-reviews-container">
 	<div id="search-map"></div>
-	<div>
-<!-- 		<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:EiwyNCBXaWxsaWFtIFN0LCBNZWxib3VybmUgVklDIDMwMDAsIEF1c3RyYWxpYQ&key=AIzaSyCfyKL3I9UtFtaDAr0EPitr32-lq-Qik5w" allowfullscreen></iframe> -->
-	</div>
 	<div class="reviews-container">
-	
+		<div class="reviews-header">
+			<h2>Rental Reviews</h2>
+		</div>
+		<div class="reviews-list"></div>
 	</div>
 </div>
 
@@ -19,8 +18,7 @@
 
 	function initMap() {
 
-    	var melbourne = {lat: -37.8136, lng: 144.9631};
-
+    	var melbourne = { lat: -37.8136, lng: 144.9631 };
    		map = new google.maps.Map(document.querySelector('#search-map'), {
         	center: melbourne,
         	zoom: 15
@@ -28,7 +26,12 @@
 
 		var input = document.querySelector('#search-input');
 
+		// var options = {
+		// 	componentRestrictions: { country: 'au' }
+		// }
+
 		var searchBox = new google.maps.places.SearchBox(input);
+
 		//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // puts the search box on the map, probably don't need
 
 		map.addListener('bounds_changed', function() {
@@ -40,8 +43,6 @@
 		// more details for that place.
 		searchBox.addListener('places_changed', function() {
 			var places = searchBox.getPlaces();
-
-			// debugger;
 
 			if (places.length == 0) {
 				return;
@@ -84,45 +85,84 @@
 				} else {
 					bounds.extend(place.geometry.location);
 				}
+
+				FindReviews(place.formatted_address);
+
+				// show info window on click, move map to center on click
+				google.maps.event.addListener(markers[0], 'click', function() {
+					infowindow = new google.maps.InfoWindow();
+					infowindow.setContent(place.formatted_address);
+					infowindow.open(map, this)
+				})
+
 			});
 
 			map.fitBounds(bounds);
 			map.setZoom(18);
 			map.setCenter(places[0].geometry.location);
 
-			// get the places with a radius of 500 around the location
-			infowindow = new google.maps.InfoWindow();
-			var service = new google.maps.places.PlacesService(map);
-			service.nearbySearch({
-				location: places[0].geometry.location,
-				radius: 500,
-				type: ['store']
-			}, callback);
+			// // get the places with a radius of 500 around the location
+			// infowindow = new google.maps.InfoWindow();
+			// var service = new google.maps.places.PlacesService(map);
+			// service.nearbySearch({
+			// 	location: places[0].geometry.location,
+			// 	radius: 500,
+			// 	type: ['store']
+			// }, callback);
 
-			function callback(results, status) {
-				if (status === google.maps.places.PlacesServiceStatus.OK) {
-					for (var i = 0; i < results.length; i++) {
-						createMarker(results[i]);
-					}
-				}
-			}
+			// function callback(results, status) {
+			// 	if (status === google.maps.places.PlacesServiceStatus.OK) {
+			// 		for (var i = 0; i < results.length; i++) {
+			// 			createMarker(results[i]);
+			// 		}
+			// 	}
+			// }
 
-			function createMarker(place) {
-				var placeLoc = place.geometry.location;
-				var marker = new google.maps.Marker({
-					map: map,
-					position: place.geometry.location
-				});
+			// function createMarker(place) {
+			// 	var placeLoc = place.geometry.location;
+			// 	var marker = new google.maps.Marker({
+			// 		map: map,
+			// 		position: place.geometry.location
+			// 	});
 
-				google.maps.event.addListener(marker, 'click', function() {
-					infowindow.setContent(place.name);
-					infowindow.open(map, this);
-				});
-            } 
+			// 	google.maps.event.addListener(marker, 'click', function() {
+			// 		infowindow.setContent(place.name);
+			// 		infowindow.open(map, this);
+			// 	});
+   //          } 
 		})
 	}
 
+	function FindReviews(searchString) {
 
+		// empty the container before adding new items to list
+		$('.reviews-list').empty();
+
+		var options = {
+			url: '/api/reviews',
+			method: 'get',
+			data: { searchAddress: searchString }
+		}
+
+		$.ajax(options)
+		.done(function(response) {
+			if (response.length > 0) {
+				response.forEach(function(review) {
+					var reviewItem = 
+					"<a href=''>\
+						<div class='review'>\
+							<span>" + review.address + "</span>\
+						</div>\
+					</a>"
+
+					$('.reviews-list').append(reviewItem);
+				})
+			} else {
+				var item = "<span>No Reviews Found</span>"
+				$('.reviews-list').append(item);
+			}
+		})
+	}
 
 </script>
 
