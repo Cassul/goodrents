@@ -4,10 +4,10 @@ class User < ApplicationRecord
   has_many :reviews,
   dependent: :destroy
   has_secure_password
-  validates :username, 
-    presence: true, 
+  validates :username,
+    presence: true,
     length: {in: 3..20}
-  validates :email, 
+  validates :email,
   presence: true,
   uniqueness: true,
   confirmation: true

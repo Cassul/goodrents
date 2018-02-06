@@ -1,0 +1,21 @@
+<h1>GoodRents</h1>
+<%if !session[:user_name] %>
+    <form class="" action="/sessions" method="post">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+
+    <input type="text" name="email" value="" placeholder="Email"> <br>
+    <input type="password" name="password" value="" placeholder="Password"> <br>
+    <button >Login</button>
+    </form>
+    <hr>
+    <h2>Don't have an account?</h2>
+    <form class="" action="/users/new" method="get">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+      <button>SignUp</button>
+    </form>
+<%else%>
+    <h1>Already signed in as <%=session[:user_name]%></h1>
+    <!-- <form class="" action="/sessions" method="post">
+
+    </form> -->
+<%end%>
