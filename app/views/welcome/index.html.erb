@@ -1,0 +1,136 @@
+<h1>GoodRents</h1>
+
+<h2><%= @message %></h2>
+<input id="search-input" class="controls" type="text" placeholder="Search Address">
+<div class="map-reviews-container">
+	<div id="search-map"></div>
+	<div>
+<!-- 		<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:EiwyNCBXaWxsaWFtIFN0LCBNZWxib3VybmUgVklDIDMwMDAsIEF1c3RyYWxpYQ&key=AIzaSyCfyKL3I9UtFtaDAr0EPitr32-lq-Qik5w" allowfullscreen></iframe> -->
+	</div>
+	<div class="reviews-container">
+	
+	</div>
+</div>
+
+<script>
+
+	var map;
+	var infowindow;
+
+	function initMap() {
+
+    	var melbourne = {lat: -37.8136, lng: 144.9631};
+
+   		map = new google.maps.Map(document.querySelector('#search-map'), {
+        	center: melbourne,
+        	zoom: 15
+       	});
+
+		var input = document.querySelector('#search-input');
+
+		var searchBox = new google.maps.places.SearchBox(input);
+		//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // puts the search box on the map, probably don't need
+
+		map.addListener('bounds_changed', function() {
+			searchBox.setBounds(map.getBounds());
+		});
+
+		var markers = [];
+		// Listen for the event fired when the user selects a prediction and retrieve
+		// more details for that place.
+		searchBox.addListener('places_changed', function() {
+			var places = searchBox.getPlaces();
+
+			// debugger;
+
+			if (places.length == 0) {
+				return;
+			}
+
+			// Clear out the old markers.
+			markers.forEach(function(marker) {
+				marker.setMap(null);
+			});
+			markers = [];
+
+			// For each place, get the icon, name and location.
+			var bounds = new google.maps.LatLngBounds();
+			places.forEach(function(place) {
+				if (!place.geometry) {
+					console.log("Returned place contains no geometry");
+					return;
+				}
+	            
+				var icon = {
+					url: place.icon,
+					size: new google.maps.Size(71, 71),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(17, 34),
+					scaledSize: new google.maps.Size(25, 25)
+				};
+
+				// Create a marker for each place.
+				markers.push(new google.maps.Marker({
+					map: map,
+					icon: icon,
+					title: place.name,
+					position: place.geometry.location
+				}));
+
+				// moves the map to the new location
+				if (place.geometry.viewport) {
+					// Only geocodes have viewport.
+					bounds.union(place.geometry.viewport);
+				} else {
+					bounds.extend(place.geometry.location);
+				}
+			});
+
+			map.fitBounds(bounds);
+			map.setZoom(18);
+			map.setCenter(places[0].geometry.location);
+
+			// get the places with a radius of 500 around the location
+			infowindow = new google.maps.InfoWindow();
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch({
+				location: places[0].geometry.location,
+				radius: 500,
+				type: ['store']
+			}, callback);
+
+			function callback(results, status) {
+				if (status === google.maps.places.PlacesServiceStatus.OK) {
+					for (var i = 0; i < results.length; i++) {
+						createMarker(results[i]);
+					}
+				}
+			}
+
+			function createMarker(place) {
+				var placeLoc = place.geometry.location;
+				var marker = new google.maps.Marker({
+					map: map,
+					position: place.geometry.location
+				});
+
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.setContent(place.name);
+					infowindow.open(map, this);
+				});
+            } 
+		})
+	}
+
+
+
+</script>
+
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfyKL3I9UtFtaDAr0EPitr32-lq-Qik5w&libraries=places&callback=initMap"> // need to change this API key as it belongs to James
+</script>
+
+
+
+
+
