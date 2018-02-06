@@ -1,8 +1,3 @@
-#search-map {
-	height: 600px;
-	width: 80%;
-}
-
 #search-input {
 	width: 50%;
 }
@@ -12,3 +7,15 @@
 	background-color: blue;
 }
 
+.map-reviews-container {
+	display: flex;
+}
+
+#search-map {
+	height: 600px;
+	width: 70%;
+}
+
+.reviews-container {
+	width: 30%;
+}

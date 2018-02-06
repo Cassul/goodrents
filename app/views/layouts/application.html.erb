@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Goodrents</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -11,8 +12,8 @@
   <body>
     <h1>test test test</h1>
     <%if !session[:user_id]%>
-    <a href="/login">LOGIN</a>
-    <hr>
+      <a href="/login">LOGIN</a>
+      <hr>
     <%else%>
       <p>Logged in as <%=session[:user_name]%></p>
       <form class="" action="/sessions" method="post">
