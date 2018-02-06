@@ -1,8 +1,10 @@
 class ReviewsController < ApplicationController
+include SessionsHelper
 
 def show 
-  @review = review.find(params[:id])
-  @comments = Comment.find_where(review_id: params[:id])
+  @review = Review.find(params[:id])
+  @comments = Comment.where(review_id: params[:id])
 end
+
 
 end
