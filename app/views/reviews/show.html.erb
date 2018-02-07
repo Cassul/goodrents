@@ -1,5 +1,6 @@
   <h1><%= @review.address %></h1>
-  <h2><%= @review.bedrooms %> bedrooms <%= @review.property_type %></h2>
+  <h2>Review by: <a href="/users/<%= @review.user_id %>"><%= User.find_by(id: @review.user_id).username%></a></h2>
+  <h2><%= @review.bedrooms %> bedroom <%= @review.property_type %></h2>
   <!-- need to change to star ratings -->
   <p>Utilities: <%= @review.utilities %></p>
   <p>Landlord: <%= @review.landlord %></p>
@@ -15,7 +16,7 @@
     </div>
     <br>
     <% if logged_in?
-      if  @current_user.id === Review.find(params[:id])[:user_id] || @current_user.id === 1 %>
+      if  session[:user_id] === Review.find(params[:id])[:user_id] %>
         <div>
           <%= link_to "edit", edit_review_path(@review), class:"badge badge-info under_review" %>
           <%= link_to "delete", review_path(@review), method: :delete ,  class:"badge badge-danger under_hint" %>
@@ -23,10 +24,13 @@
       <% end %>
     <% end %> 
   </div>
-  <% if logged_in? %>
-  <form action="/review?review=<%= @review.id %>&comment=<%= @current_user.id%>" method="post">
-    <input type="text" name="body" value="<%= @text %>">
-    <button>leave your comment</button>
+  <% if session[:user_id] %>
+  <form action="/comments" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="text" name="body" placeholder="leave your comment">
+    <input type="hidden" name="review" value="<%= @review.id %>">
+    <input type="hidden" name="user_id" value="<%= session[:user_id] %>">
+    <button>submit</button>
   </form>
   <% end %> 
 
@@ -35,20 +39,23 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <span class="text-muted"><%= comment.created_at %></span>
+        <span class="text-muted">
+          by <a href="/users/<%= comment.user_id %>"><%= User.find_by(id: comment.user_id).username %></a>
+        </span>
       </div>
       <div class="panel-body">
         <%= comment.body %>
       </div>
     </div>
-    <% if logged_in? %>
-    <% if current_user.username == comment.author_name || current_user.id === 1 %>
+    <% if session[:user_id] === comment.user_id %>
     <div class="options">
-    <form action="/comment/delete?id=<%= comment.id %>&review=<%= comment.review_id %>" method="post">
-    <input type="hidden" name="_method" value="delete">
-      <button class="btn btn-danger">delete</button>
-    </form>
-    <a href="/reviews/<%= comment.hint_id %>?comment=<%= comment.id %>" class="badge badge-info">edit</a>
-    <% end %>
+      <form action="/comments/<%= comment.id %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="_method" value="delete">
+        <button class="btn btn-danger">delete</button>
+      </form>
+      <!-- <input type="hidden" name="_method" value="get">
+      <button>edit</button> -->
   </div>
   <% end %>
   <% end %>
