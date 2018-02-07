@@ -6,11 +6,9 @@ Rails.application.routes.draw do
 
 
   root 'welcome#index'
-
   get '/login', to: 'users#login'
   post '/sessions', to: 'sessions#create'
   delete '/sessions', to: 'sessions#destroy'
-
   get '/api/reviews', to: 'welcome#api_show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -1,0 +1,25 @@
+<h1><%=@user.username%></h1>
+<h2>All Reviews:</h2>
+
+<%@reviews.each do |review|%>
+<div class="allReviews">
+  <a href="/review/<%=review.id%>"><%review.address%></a>
+  <img class='small' src="<%review.img%>" alt="">
+  <!-- <a href="/<%Review.where(suburb: #{review.suburb})%">see all reviewed properties in <%review.suburb%></a> -->
+  <!-- <p><%=review.bedrooms%> bedroom <%=review.property_type%></p>
+  <p><%=review.comment%></p> -->
+</div>
+<div class="allComments">
+  <%@comments.each do |comment|%>
+
+  <a href="/review/<%=comment.review_id%>"><%=comment.review.address%></a>
+  <p><%=comment.body%></p>
+
+</div>
+<%if session[:user_id != @user.id]%>
+<div class="msgBox">
+  <a href="/messages/new>">message <%=@user.username%>
+  <!-- <input type="hidden" name="username" value="<%=@user.name%>"> -->
+ </a>
+</div>
+<%end%>
