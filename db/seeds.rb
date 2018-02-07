@@ -8,6 +8,7 @@
 
 Review.destroy_all
 User.destroy_all
+Message.destroy_all
 
 require 'bcrypt'
 
@@ -22,6 +23,10 @@ properties = [{"type"=>"PropertyListing", "listing"=>{"listingType"=>"Rent", "id
 end
 
 users_array = User.all.pluck(:id)
+
+100.times do
+  Message.create(sender_id:users_array.sample, recepient_id:users_array.sample, body:"#{surnames.sample} #{surnames.sample}")
+end
 
 properties.each do |property|
   Review.create(user_id:users_array.sample, address:"#{property["listing"]["propertyDetails"]["streetNumber"]} #{property["listing"]["propertyDetails"]["street"]}, #{property["listing"]["propertyDetails"]["suburb"].downcase.capitalize} VIC #{property["listing"]["propertyDetails"]["postcode"]}, Australia",
