@@ -1,0 +1,74 @@
+<form action="">
+    <div class="propertyInfo">
+        <label for="">Address:</label>
+        <input id="address" type="text" name="address" value="" placeholder="Search an address">
+        <label for="">suburb:</label>
+        <input id="suburb" type="text" name="suburb" value="" readonly> <br>
+
+        <label for="">Property Type</label>
+        <input type="text" name="type">
+        <label for="">Bedroom(s)</label>
+        <input type="text" name="bedroom">
+        <label for="">Upload Image</label>
+        <input type="text" name="image">
+
+        <label for="">Utility:</label>
+        <div id="utility" class="starRating"></div>
+        <input id="utility_input" type="hidden" name="utility" value="0">
+        
+        <label for="">Landlord:</label>
+        <div id="landlord" class="starRating"></div>
+        <input id="landlord_input" type="hidden" name="landlord" value="0">
+
+        <label for="">Neighbours</label>
+        <div id="neighbours" class="starRating"></div>
+        <input id="neighbours_input" type="hidden" name="neighbours" value="0">
+
+        <label for="">Neighbourhood</label>
+        <div id="neighbourhood" class="starRating"></div>
+        <input id="neighbourhood_input" type="hidden" name="neighbourhood" value="0">
+
+        <label for="">Comment:</label> <br>
+        <textarea name="comment" rows="8" cols="80" ></textarea>
+        <button class="register-button">Register New User</button>
+
+    </div>
+</form>
+
+<script>
+    
+    $('.starRating').rateYo({
+        starWidth: "40px",
+        normalFill: "#A0A0A0",
+        ratedFill: "rgb(243, 156, 18)",
+        fullStar: true,
+    })
+
+    $('.starRating').on('click', function() {
+        var itemRating = $(this).rateYo('rating');
+        var id = $(this).attr('id');
+        $(this).closest('.propertyInfo').find('#' + id + '_input').attr('value', itemRating)
+    })
+
+    function init() {
+        var $addressInput = document.querySelector('#address')
+        var options = {
+            componentRestrictions: { country: 'au' }
+        }
+
+        var addressSearch = new google.maps.places.Autocomplete($addressInput, options)
+
+        addressSearch.addListener('place_changed', function() {
+            var places = addressSearch.getPlace();
+            if (places.length === 0) { return }
+
+            $('#address').attr('value', places.formatted_address);
+            $('#suburb').attr('value', places.vicinity)
+        })
+    }
+    
+</script>
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7YBuHg-EpjHUU__6aBn14UDPLo86aeCc&libraries=places&callback=init"> // using the rentalscheckout@gmail.com API key
+</script>
