@@ -9,11 +9,33 @@ body{
 h1{
   text-align: center;
 }
+.me{
+  border:1px solid red;
+  margin-left: 30px;
+  margin-bottom: 10px;
+  width:40%;
+}
+.others{
+  border:1px solid blue;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  width:40%;
+}
 .msgbox{
   border: 2px solid green;
   border-radius: 5px;
   width:30%;
-  min-height: 80%;
+  min-height:50%;
   height:auto;
   margin:30px auto;
+  position:relative;
+}
+
+.msg{
+  width:75%;
+
+}
+footer{
+  position:absolute;
+  bottom:0;
 }

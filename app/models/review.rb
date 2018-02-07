@@ -10,4 +10,5 @@ class Review < ApplicationRecord
   validates :neighbourhood, presence: true
   validates :comment, presence: true
   validates :comment, presence: true
+  has_many:likes
 end
