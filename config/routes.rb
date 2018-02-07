@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   post '/sessions', to: 'sessions#create'
   delete '/sessions', to: 'sessions#destroy'
   get '/api/reviews', to: 'welcome#api_show'
+  get '/api/users', to: 'users#api_show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

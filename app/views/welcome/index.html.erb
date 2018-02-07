@@ -1,175 +1,180 @@
 <h1>GoodRents</h1>
 
-<input id="search-input" class="controls" type="text" placeholder="Search Address">
-<div class="map-reviews-container">
-	<div id="search-map"></div>
-	<div class="reviews-container">
-		<div class="reviews-header">
-			<h2>Rental Reviews</h2>
+<% if logged_in? && has_reviews? %>
+	<input id="search-input" class="controls" type="text" placeholder="Search Address">
+	<div class="map-reviews-container">
+		<div id="search-map"></div>
+		<div class="reviews-container">
+			<div class="reviews-header">
+				<h2>Rental Reviews</h2>
+			</div>
+			<div class="reviews-list"></div>
 		</div>
-		<div class="reviews-list"></div>
 	</div>
-</div>
+	<script>
 
-<script>
+		var map;
+		var infowindow;
 
-	var map;
-	var infowindow;
+		function initMap() {
 
-	function initMap() {
+	    	var melbourne = { lat: -37.8136, lng: 144.9631 };
+	   		map = new google.maps.Map(document.querySelector('#search-map'), {
+	        	center: melbourne,
+	        	zoom: 15
+	       	});
 
-    	var melbourne = { lat: -37.8136, lng: 144.9631 };
-   		map = new google.maps.Map(document.querySelector('#search-map'), {
-        	center: melbourne,
-        	zoom: 15
-       	});
+			var input = document.querySelector('#search-input');
 
-		var input = document.querySelector('#search-input');
-
-		// var options = {
-		// 	componentRestrictions: { country: 'au' }
-		// }
-
-		var searchBox = new google.maps.places.SearchBox(input);
-
-		//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // puts the search box on the map, probably don't need
-
-		map.addListener('bounds_changed', function() {
-			searchBox.setBounds(map.getBounds());
-		});
-
-		var markers = [];
-		// Listen for the event fired when the user selects a prediction and retrieve
-		// more details for that place.
-		searchBox.addListener('places_changed', function() {
-			var places = searchBox.getPlaces();
-
-			if (places.length == 0) {
-				return;
-			}
-
-			// Clear out the old markers.
-			markers.forEach(function(marker) {
-				marker.setMap(null);
-			});
-			markers = [];
-
-			// For each place, get the icon, name and location.
-			var bounds = new google.maps.LatLngBounds();
-			places.forEach(function(place) {
-				if (!place.geometry) {
-					console.log("Returned place contains no geometry");
-					return;
-				}
-	            
-				var icon = {
-					url: place.icon,
-					size: new google.maps.Size(71, 71),
-					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(17, 34),
-					scaledSize: new google.maps.Size(25, 25)
-				};
-
-				// Create a marker for each place.
-				markers.push(new google.maps.Marker({
-					map: map,
-					icon: icon,
-					title: place.name,
-					position: place.geometry.location
-				}));
-
-				// moves the map to the new location
-				if (place.geometry.viewport) {
-					// Only geocodes have viewport.
-					bounds.union(place.geometry.viewport);
-				} else {
-					bounds.extend(place.geometry.location);
-				}
-
-				FindReviews(place.formatted_address);
-
-				// show info window on click, move map to center on click
-				google.maps.event.addListener(markers[0], 'click', function() {
-					infowindow = new google.maps.InfoWindow();
-					infowindow.setContent(place.formatted_address);
-					infowindow.open(map, this)
-				})
-
-			});
-
-			// debugger;
-			map.fitBounds(bounds);
-			map.setZoom(18);
-			map.setCenter(places[0].geometry.location);
-
-			// // get the places with a radius of 500 around the location
-			// infowindow = new google.maps.InfoWindow();
-			// var service = new google.maps.places.PlacesService(map);
-			// service.nearbySearch({
-			// 	location: places[0].geometry.location,
-			// 	radius: 500,
-			// 	type: ['store']
-			// }, callback);
-
-			// function callback(results, status) {
-			// 	if (status === google.maps.places.PlacesServiceStatus.OK) {
-			// 		for (var i = 0; i < results.length; i++) {
-			// 			createMarker(results[i]);
-			// 		}
-			// 	}
+			// var options = {
+			// 	componentRestrictions: { country: 'au' }
 			// }
 
-			// function createMarker(place) {
-			// 	var placeLoc = place.geometry.location;
-			// 	var marker = new google.maps.Marker({
-			// 		map: map,
-			// 		position: place.geometry.location
-			// 	});
+			var searchBox = new google.maps.places.SearchBox(input);
 
-			// 	google.maps.event.addListener(marker, 'click', function() {
-			// 		infowindow.setContent(place.name);
-			// 		infowindow.open(map, this);
-			// 	});
-   //          } 
-		})
-	}
+			//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // puts the search box on the map, probably don't need
 
-	function FindReviews(searchString) {
+			map.addListener('bounds_changed', function() {
+				searchBox.setBounds(map.getBounds());
+			});
 
-		// empty the container before adding new items to list
-		$('.reviews-list').empty();
+			var markers = [];
+			// Listen for the event fired when the user selects a prediction and retrieve
+			// more details for that place.
+			searchBox.addListener('places_changed', function() {
+				var places = searchBox.getPlaces();
 
-		var options = {
-			url: '/api/reviews',
-			method: 'get',
-			data: { searchAddress: searchString }
+				if (places.length == 0) {
+					return;
+				}
+
+				// Clear out the old markers.
+				markers.forEach(function(marker) {
+					marker.setMap(null);
+				});
+				markers = [];
+
+				// For each place, get the icon, name and location.
+				var bounds = new google.maps.LatLngBounds();
+				places.forEach(function(place) {
+					if (!place.geometry) {
+						console.log("Returned place contains no geometry");
+						return;
+					}
+		            
+					var icon = {
+						url: place.icon,
+						size: new google.maps.Size(71, 71),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(17, 34),
+						scaledSize: new google.maps.Size(25, 25)
+					};
+
+					// Create a marker for each place.
+					markers.push(new google.maps.Marker({
+						map: map,
+						icon: icon,
+						title: place.name,
+						position: place.geometry.location
+					}));
+
+					// moves the map to the new location
+					if (place.geometry.viewport) {
+						// Only geocodes have viewport.
+						bounds.union(place.geometry.viewport);
+					} else {
+						bounds.extend(place.geometry.location);
+					}
+
+					FindReviews(place.formatted_address);
+
+					// show info window on click, move map to center on click
+					google.maps.event.addListener(markers[0], 'click', function() {
+						infowindow = new google.maps.InfoWindow();
+						infowindow.setContent(place.formatted_address);
+						infowindow.open(map, this)
+					})
+
+				});
+
+				map.fitBounds(bounds);
+				map.setZoom(18);
+				map.setCenter(places[0].geometry.location);
+
+				// // get the places with a radius of 500 around the location
+				// infowindow = new google.maps.InfoWindow();
+				// var service = new google.maps.places.PlacesService(map);
+				// service.nearbySearch({
+				// 	location: places[0].geometry.location,
+				// 	radius: 500,
+				// 	type: ['store']
+				// }, callback);
+
+				// function callback(results, status) {
+				// 	if (status === google.maps.places.PlacesServiceStatus.OK) {
+				// 		for (var i = 0; i < results.length; i++) {
+				// 			createMarker(results[i]);
+				// 		}
+				// 	}
+				// }
+
+				// function createMarker(place) {
+				// 	var placeLoc = place.geometry.location;
+				// 	var marker = new google.maps.Marker({
+				// 		map: map,
+				// 		position: place.geometry.location
+				// 	});
+
+				// 	google.maps.event.addListener(marker, 'click', function() {
+				// 		infowindow.setContent(place.name);
+				// 		infowindow.open(map, this);
+				// 	});
+	   //          } 
+			})
 		}
 
-		$.ajax(options)
-		.done(function(response) {
-			if (response.length > 0) {
-				response.forEach(function(review) {
-					var reviewItem = 
-					"<a href=''>\
-						<div class='review'>\
-							<span>" + review.address + "</span>\
-						</div>\
-					</a>"
+		function FindReviews(searchString) {
 
-					$('.reviews-list').append(reviewItem);
-				})
-			} else {
-				var item = "<span>No Reviews Found</span>"
-				$('.reviews-list').append(item);
+			// empty the container before adding new items to list
+			$('.reviews-list').empty();
+
+			var options = {
+				url: '/api/reviews',
+				method: 'get',
+				data: { searchAddress: searchString }
 			}
-		})
-	}
 
-</script>
+			$.ajax(options)
+			.done(function(response) {
+				if (response.length > 0) {
+					response.forEach(function(review) {
+						var reviewItem = 
+						"<a href=''>\
+							<div class='review'>\
+								<span>" + review.address + "</span>\
+							</div>\
+						</a>"
 
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7YBuHg-EpjHUU__6aBn14UDPLo86aeCc&libraries=places&callback=initMap"> // using the rentalscheckout@gmail.com API key
-</script>
+						$('.reviews-list').append(reviewItem);
+					})
+				} else {
+					var item = "<span>No Reviews Found</span>"
+					$('.reviews-list').append(item);
+				}
+			})
+		}
+
+	</script>
+
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7YBuHg-EpjHUU__6aBn14UDPLo86aeCc&libraries=places&callback=initMap"> // using the rentalscheckout@gmail.com API key
+	</script>
+<% elsif logged_in? %>
+
+	<a href="/reviews/new">Create a Review</a>
+
+<% end %>
+
 
 
 
