@@ -3,23 +3,26 @@
 
 <%@reviews.each do |review|%>
 <div class="allReviews">
-  <a href="/review/<%=review.id%>"><%review.address%></a>
-  <img class='small' src="<%review.img%>" alt="">
-  <!-- <a href="/<%Review.where(suburb: #{review.suburb})%">see all reviewed properties in <%review.suburb%></a> -->
-  <!-- <p><%=review.bedrooms%> bedroom <%=review.property_type%></p>
-  <p><%=review.comment%></p> -->
-</div>
-<div class="allComments">
-  <%@comments.each do |comment|%>
+  <a href="/review/<%=review.id%>"><%=review.address%></a>
+  <img class='small' src="<%=review.img%>" alt="">
 
-  <a href="/review/<%=comment.review_id%>"><%=comment.review.address%></a>
-  <p><%=comment.body%></p>
-
-</div>
-<%if session[:user_id != @user.id]%>
-<div class="msgBox">
-  <a href="/messages/new>">message <%=@user.username%>
-  <!-- <input type="hidden" name="username" value="<%=@user.name%>"> -->
- </a>
 </div>
 <%end%>
+<%if @comments.count > 0 %>
+  <div class="allComments">
+    <h2>All comments:</h2>
+    <%@comments.each do |comment|%>
+        <a href="/review/<%=comment.review_id%>"><%=comment.review.address%></a>
+        <p><%=comment.body%></p>
+    <%end%>
+  </div>
+  <%else%>
+    <h2><%=@user.username%> hasn't made any comment yet</h2>
+<%end%>
+<%if session[:user_id != @user.id]%>
+  <div class="msgBox">
+    <a href="/messages/new>">message <%=@user.username%>
+    <!-- <input type="hidden" name="username" value="<%=@user.name%>"> -->
+    </a>
+  </div>
+  <%end%>
