@@ -1,33 +1,19 @@
 <h1>User and Property information registry</h1>
-<form class="" action="/users" method="post">
+<form class="signup-form" action="/users" method="post">
   <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
   <div class="userinfo">
-    <input type="text" name="user_name" value="" placeholder="User name"> <br>
-    <input type="text" name="email" value="" placeholder="Email"> <br>
-    <input type="password" name="password" value="" placeholder="Password">
+    <input id="username" type="text" name="user_name" value="" placeholder="User name"> <br>
+    <input id="email" type="text" name="email" value="" placeholder="Email"> <br>
+    <input id="password" type="password" name="password" value="" placeholder="Password">
   </div>
-  <div class="propertyInfo">
-    <label for="">Address:</label>
-    <input type="text" name="address" value="">
-    <label for="">suburb:</label>
-    <input type="text" name="suburb" value=""> <br>
-    <!-- <label for="">Property Type</label>
-    <input type="text" name="type" value="">
-    <label for="">Bedroom(s)</label>
-    <input type="text" name="bedroom" value="">
-    <label for="">Upload Image</label>
-    <input type="text" name="image" value=""> -->
-    <label for="">Utility:</label>
-    <input type="text" name="utility" value="">
-    <label for="">landlord:</label>
-    <input type="text" name="landlord" value=""> <br>
-    <label for="">neighbours</label>
-    <input type="text" name="neighbours" value="">
-    <label for="">neighbourhood</label>
-    <input type="text" name="neighbourhood" value=""><br>
-    <label for="">comment:</label> <br>
-    <textarea name="comment" rows="8" cols="80" >
-    </textarea>
-  </div>
-  <button >Register</button>
 </form>
+
+<script>
+
+    $('.register-button').on('click', function() {
+        if () {
+
+        }
+    })
+
+</script>
