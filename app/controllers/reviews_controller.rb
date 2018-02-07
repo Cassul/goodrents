@@ -26,9 +26,16 @@ class ReviewsController < ApplicationController
 	        redirect_to '/'
     	else
     		@errors = property.errors.full_message
-
     		render :create
     	end
 	end
-
+  
+  def destroy
+    if logged_in? && @current_user.id === Review.find(params[:id])[:user_id]
+      @review = Review.destroy(params[:id])
+      redirect_to '/'
+    else 
+      redirect_to review_path
+    end
+  end
 end
