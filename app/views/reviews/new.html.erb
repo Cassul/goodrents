@@ -1,7 +1,10 @@
-<form action="">
+<form action="/reviews/" method="post">
     <div class="propertyInfo">
+        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
         <label for="">Address:</label>
-        <input id="address" type="text" name="address" value="" placeholder="Search an address">
+        <input id="address" type="text" placeholder="Search an address">
+        <input id="address-hidden" name="address" type="hidden">
+        
         <label for="">suburb:</label>
         <input id="suburb" type="text" name="suburb" value="" readonly> <br>
 
@@ -30,8 +33,12 @@
 
         <label for="">Comment:</label> <br>
         <textarea name="comment" rows="8" cols="80" ></textarea>
-        <button class="register-button">Register New User</button>
+        
+        <!-- hidden inputs for lat and long -->
+        <input id="lat-hidden" type="hidden" name="lat">
+        <input id="long-hidden" type="hidden" name='long'>
 
+        <button class="create-review-button">Create New Review</button>
     </div>
 </form>
 
@@ -62,8 +69,11 @@
             var places = addressSearch.getPlace();
             if (places.length === 0) { return }
 
-            $('#address').attr('value', places.formatted_address);
-            $('#suburb').attr('value', places.vicinity)
+            $('#address-hidden').attr('value', places.formatted_address);
+            $('#suburb').attr('value', places.vicinity);
+            $('#lat-hidden').attr('value', places.geometry.location.lat());
+            $('#long-hidden').attr('value', places.geometry.location.lng());
+            debugger;
         })
     }
     
