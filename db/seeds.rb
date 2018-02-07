@@ -24,5 +24,15 @@ end
 users_array = User.all.pluck(:id)
 
 properties.each do |property|
-  Review.create(user_id:users_array.sample, address:"#{property["listing"]["propertyDetails"]["streetNumber"]} #{property["listing"]["propertyDetails"]["street"]}, #{property["listing"]["propertyDetails"]["suburb"].downcase.capitalize} VIC #{property["listing"]["propertyDetails"]["postcode"]}, Australia",suburb:property["listing"]["propertyDetails"]["suburb"].downcase.capitalize, utilities:rand(1..10),landlord:rand(1..10), neighbours:rand(1..10), neighbourhood:rand(1..10), comment:property["listing"]["summaryDescription"], property_type:"apartment",bedrooms:rand(1..3), lat:property["listing"]["propertyDetails"]["latitude"], long:property["listing"]["propertyDetails"]["longitude"], img:property["listing"]["media"][0]["url"])
+  Review.create(user_id:users_array.sample, address:"#{property["listing"]["propertyDetails"]["streetNumber"]} #{property["listing"]["propertyDetails"]["street"]}, #{property["listing"]["propertyDetails"]["suburb"].downcase.capitalize} VIC #{property["listing"]["propertyDetails"]["postcode"]}, Australia",
+    suburb:property["listing"]["propertyDetails"]["suburb"].downcase.capitalize, 
+    utilities:rand(1..10),
+    landlord:rand(1..10), 
+    neighbours:rand(1..10), 
+    neighbourhood:rand(1..10), 
+    comment:property["listing"]["summaryDescription"], 
+    property_type:"apartment",bedrooms:rand(1..3), 
+    lat:property["listing"]["propertyDetails"]["latitude"], 
+    long:property["listing"]["propertyDetails"]["longitude"], 
+    img:property["listing"]["media"][0]["url"])
 end
