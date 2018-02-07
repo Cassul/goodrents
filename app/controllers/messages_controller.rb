@@ -1,10 +1,7 @@
 class MessagesController < ApplicationController
-
-  def index
-
+  def new
+    @user = User.find(params[:user_id])
+    # @received=User.comments
+    # @sent
   end
-
-  def create
-  end
-
 end
