@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20180207071449) do
-
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,13 +74,9 @@ ActiveRecord::Schema.define(version: 20180207071449) do
 
   add_foreign_key "comments", "reviews"
   add_foreign_key "comments", "users"
-<<<<<<< HEAD
-  add_foreign_key "messages", "users", column: "sender_id"
-=======
   add_foreign_key "likes", "comments"
   add_foreign_key "likes", "reviews"
   add_foreign_key "likes", "users"
-  add_foreign_key "messages", "users"
->>>>>>> 892f0266e9e48c57c1dd313ab5a0a1179d898c87
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "reviews", "users"
 end
