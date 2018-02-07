@@ -2,7 +2,7 @@ class Review < ApplicationRecord
   has_many :comments, dependent: :delete_all
   belongs_to :user
   validates :address, presence: true
-  validates :suburb, presence: true,
+  validates :suburb, presence: true
   validates :user_id, presence: true
   validates :utilities, presence: true
   validates :landlord, presence: true

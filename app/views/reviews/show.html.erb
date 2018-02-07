@@ -25,13 +25,22 @@
     <% end %> 
   </div>
   <% if session[:user_id] %>
-  <form action="/comments" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="text" name="body" placeholder="leave your comment">
-    <input type="hidden" name="review" value="<%= @review.id %>">
-    <input type="hidden" name="user_id" value="<%= session[:user_id] %>">
-    <button>submit</button>
-  </form>
+    <% if params['comment']%>
+      <form action="/comments/<%= params['comment'] %>" method="post">
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="text" name="body" value="<%= Comment.find(params['comment']).body %>">
+        <button>submit</button>
+      </form>
+    <% else %>
+      <form action="/comments" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="text" name="body" placeholder="leave your comment">
+        <input type="hidden" name="review" value="<%= @review.id %>">
+        <input type="hidden" name="user_id" value="<%= session[:user_id] %>">
+        <button>submit</button>
+      </form>
+    <% end %>
   <% end %> 
 
   <% @comments.each do |comment| %>
@@ -50,12 +59,11 @@
     <% if session[:user_id] === comment.user_id %>
     <div class="options">
       <form action="/comments/<%= comment.id %>" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-      <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="_method" value="delete">
         <button class="btn btn-danger">delete</button>
       </form>
-      <!-- <input type="hidden" name="_method" value="get">
-      <button>edit</button> -->
+        <a href="/reviews/<%= @review.id %>?comment=<%= comment.id %>"><button>edit</button></a>
   </div>
   <% end %>
   <% end %>

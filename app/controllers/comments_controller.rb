@@ -18,4 +18,13 @@ class CommentsController < ApplicationController
       redirect_to review_path(@comment.review_id)
     end
   end
+
+  def update
+    @comment = Comment.find(params[:id])
+    @comment.body = params[:body]
+    if @comment.save
+      redirect_to review_path(@comment.review_id)
+    end
+  end
+
 end

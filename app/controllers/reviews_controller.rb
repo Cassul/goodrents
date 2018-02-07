@@ -9,10 +9,10 @@ include SessionsHelper
 
   def destroy
     if logged_in? && @current_user.id === Review.find(params[:id])[:user_id]
-      @review = review.destroy(params[:id])
-      redirect_to hints_path
+      @review = Review.destroy(params[:id])
+      redirect_to '/'
     else 
-      redirect_to hint_path
+      redirect_to review_path
     end
   end
 
