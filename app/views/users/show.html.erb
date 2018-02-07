@@ -8,7 +8,7 @@
 <%end%>
 
 <h2>All Reviews:</h2>
-
+<div class="wrapper">
 <%@reviews.each do |review|%>
 <div class="allReviews">
   <a class='address' href="/review/<%=review.id%>"><%=review.address%></a>
@@ -16,9 +16,10 @@
 
 </div>
 <%end%>
+</div>
 <%if @comments.count > 0 %>
+  <h2>All comments:</h2>
   <div class="allComments">
-    <h2>All comments:</h2>
     <%@comments.each do |comment|%>
         <a href="/review/<%=comment.review_id%>"><%=comment.review.address%></a>
         <p><%=comment.body%></p>
