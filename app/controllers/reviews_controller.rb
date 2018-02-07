@@ -1,8 +1,5 @@
 class ReviewsController < ApplicationController
 include SessionsHelper
-  
-  def new
-  end
 
   def show 
     # byebug
