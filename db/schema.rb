@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180207071144) do
+
+ActiveRecord::Schema.define(version: 20180207071449) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +25,17 @@ ActiveRecord::Schema.define(version: 20180207071144) do
     t.datetime "updated_at", null: false
     t.index ["review_id"], name: "index_comments_on_review_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.bigint "review_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_likes_on_comment_id"
+    t.index ["review_id"], name: "index_likes_on_review_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -63,6 +76,13 @@ ActiveRecord::Schema.define(version: 20180207071144) do
 
   add_foreign_key "comments", "reviews"
   add_foreign_key "comments", "users"
+<<<<<<< HEAD
   add_foreign_key "messages", "users", column: "sender_id"
+=======
+  add_foreign_key "likes", "comments"
+  add_foreign_key "likes", "reviews"
+  add_foreign_key "likes", "users"
+  add_foreign_key "messages", "users"
+>>>>>>> 892f0266e9e48c57c1dd313ab5a0a1179d898c87
   add_foreign_key "reviews", "users"
 end
