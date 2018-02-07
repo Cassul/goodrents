@@ -25,6 +25,9 @@ class UsersController < ApplicationController
       property.neighbours = params[:neighbours]
       property.neighbourhood = params[:neighbourhood]
       property.comment = params[:comment]
+      property.property_type = params[:type]
+      property.bedrooms = params[:bedroom]
+      property.img = params[:image]
 
       if property.save
         redirect_to '/'
@@ -32,5 +35,12 @@ class UsersController < ApplicationController
         render :new
       end
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @reviews = @user.reviews
+    @comments = @user.comments
+
   end
 end
