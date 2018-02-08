@@ -17,5 +17,6 @@ class MessagesController < ApplicationController
     @message.recepient_id = params[:recepient_id]
     @message.sender_id = session[:user_id]
     @message.save
+    redirect_to "/messages/new?from=#{session[:user_id]}&to=#{@message.recepient_id}"
   end
 end
