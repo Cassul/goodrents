@@ -11,7 +11,7 @@
 <div class="wrapper">
 <%@reviews.each do |review|%>
 <div class="allReviews">
-  <a class='address' href="/review/<%=review.id%>"><%=review.address%></a>
+  <a class='address' href="/reviews/<%=review.id%>"><%=review.address%></a>
   <img class='small' src="<%=review.img%>" alt="">
 
 </div>
@@ -21,7 +21,7 @@
   <h2>All comments:</h2>
   <div class="allComments">
     <%@comments.each do |comment|%>
-        <a href="/review/<%=comment.review_id%>"><%=comment.review.address%></a>
+        <a href="/reviews/<%=comment.review_id%>"><%=comment.review.address%></a>
         <p><%=comment.body%></p>
     <%end%>
   </div>

@@ -1,5 +1,19 @@
   <h1><%= @review.address %></h1>
   <h2>Review by: <a href="/users/<%= @review.user_id %>"><%= User.find_by(id: @review.user_id).username%></a></h2>
+  <% if logged_in?
+    if  session[:user_id] === Review.find(params[:id])[:user_id] %>
+      <div>
+        <%= link_to "edit", edit_review_path(@review), class:"badge badge-info under_review" %>
+        <%= link_to "delete", review_path(@review), method: :delete ,  class:"badge badge-danger under_hint" %>
+      </div>
+      <%else%>
+        <p id='likesCount'><%=Like.where(review_id:@review.id).count%></p>
+
+        <button id='likeBtn'>Like</button>
+
+        <input id='review_id'type="hidden" name="review_id" value="<%=@review.id%>">
+    <% end %>
+  <% end %>
   <h2><%= @review.bedrooms %> bedroom <%= @review.property_type %></h2>
   <!-- need to change to star ratings -->
   <p>Utilities: <%= @review.utilities %></p>
@@ -14,15 +28,6 @@
     <div>
       <%= link_to "<< Back to all reviews", reviews_path %>
     </div>
-    <br>
-    <% if logged_in?
-      if  session[:user_id] === Review.find(params[:id])[:user_id] %>
-        <div>
-          <%= link_to "edit", edit_review_path(@review), class:"badge badge-info under_review" %>
-          <%= link_to "delete", review_path(@review), method: :delete ,  class:"badge badge-danger under_hint" %>
-        </div>
-      <% end %>
-    <% end %> 
   </div>
   <% if session[:user_id] %>
     <% if params['comment']%>
@@ -41,7 +46,7 @@
         <button>submit</button>
       </form>
     <% end %>
-  <% end %> 
+  <% end %>
 
   <% @comments.each do |comment| %>
   <div class="col-sm-5">
@@ -64,6 +69,42 @@
         <button class="btn btn-danger">delete</button>
       </form>
         <a href="/reviews/<%= @review.id %>?comment=<%= comment.id %>"><button>edit</button></a>
-  </div>
+    </div>
+
+    <% end %>
   <% end %>
-  <% end %>
+
+  <script>
+  console.log('banana phone')
+      var likesObj = $("#likesCount")
+      var likesCount = likesObj.text()
+      var reviewId = $("#review_id").val()
+      var option
+      $('#likeBtn').on('click',function(){
+          $(this).toggleClass('color')
+          if($(this).hasClass('color')){
+              option = {
+                url: '/likes',
+                method: 'post',
+                data: {review_id: reviewId }
+              }
+
+              $.ajax(option)
+              .done(function(res){
+                    console.log(res)
+                    likesCount=Number(likesCount)+1
+                    likesObj.text(likesCount)
+              })
+
+          }else{
+            option={
+              url:'/likes',method:'delete',data:{review_id:reviewId}}
+              $.ajax(option).done(function(res){
+
+              }
+
+              )}
+
+      })
+
+  </script>
