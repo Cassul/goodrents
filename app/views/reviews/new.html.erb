@@ -42,8 +42,13 @@
         <textarea name="comment" rows="8" cols="80" ></textarea>
 
         <!-- hidden inputs for lat and long -->
-        <input id="lat-hidden" type="hidden" name="lat">
-        <input id="long-hidden" type="hidden" name='long'>
+        <% if @lat && @long %>
+            <input id="lat-hidden" type="hidden" name="lat" value="<%= @lat %>">
+            <input id="long-hidden" type="hidden" name='long' value="<%= @long %>">
+        <% else %>
+            <input id="lat-hidden" type="hidden" name="lat">
+            <input id="long-hidden" type="hidden" name='long'>
+        <% end %>
 
         <button class="create-review-button">Create New Review</button>
     </div>
