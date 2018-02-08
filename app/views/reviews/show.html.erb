@@ -26,7 +26,8 @@
   <br>
   <div class="review_opt">
     <div>
-      <%= link_to "<< Back to all reviews", reviews_path %>
+      <a href="/reviews?suburb=<%= @review.suburb %>">Check all reviews for this suburb</a>
+      <a href="/reviews?address=<%= @review.address %>">Check other reviews for this property</a>
     </div>
   </div>
   <% if session[:user_id] %>

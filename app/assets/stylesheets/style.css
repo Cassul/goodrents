@@ -1,32 +1,65 @@
+* {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.good {
+  color: red;
+}
+
+
 .message-container {
   display: flex;
   flex-direction: column;
-
 }
 
-.sender {
-  /*float: right;*/
-
-  margin: 0;
+.sender {  
+  margin: 0 0 10px 0;
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
 .recepient {
-  /*float: left;*/
-  margin: 5px 0 0 0;
+  margin: 0 0 10px 0;
   width: 100%;
-  display: flex
+  display: flex;
   justify-content: flex-start;
 }
 
 .sender > .message-details {
-  width: 40%;
-    background-color: blue;
+  border-radius: 15px;
+  padding: 10px;
+  width: 55%;
+  background-color: green;
 }
 
 .recepient > .message-details {
-    background-color: green;
-    width: 40%;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: grey;
+  width: 55%;
+}
+
+.messages {
+  width: 100%;
+}
+
+#message_input {
+  width: 100%;
+}
+
+.center_logout {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.logout {
+  border: none;
+  padding: none;
+  background: none;
+}
+
+.suburb_reviews {
+  width: 300px;
 }
