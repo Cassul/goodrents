@@ -1,0 +1,32 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.me {
+  /*float: right;*/
+
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.others {
+  /*float: left;*/
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.me > .message-details {
+  width: 50%;
+    background-color: blue;
+}
+
+.others > .message-details {
+    background-color: green;
+    width: 50%;
+}

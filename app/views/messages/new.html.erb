@@ -1,17 +1,26 @@
 <div class="msgbox">
-  <h1><%=@user.username%></h1>
+  <h1><%= User.find(@recepient).username %></h1>
   <hr>
-  <div class="me">
-    <p>My message</p>
-  </div>
-  <div class="others">
-    <p>others' message</p>
-
+  <div class="message-container">
+    <% @conversation.each do |message| %>
+      <div 
+        <% if message.sender_id === session[:user_id]%>
+        class="me"
+        <% end %>
+        class="others"
+        >
+        <div class="message-details">
+          <p><%= message.body %></p>
+          <p><%= message.created_at %></p>
+        </div>
+      </div>
+    <% end %>
   </div>
   <footer>
     <form class="" action="/messages" method="post">
        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-       <textarea class='msg' name="comment" rows="8" cols="80"></textarea>
+       <input type="hidden" name="recepient_id" value="<%= params['to'] %>">
+       <input type="text" name="body">
        <button >SUBMIT</button>
     </form>
   </footer>
