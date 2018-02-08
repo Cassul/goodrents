@@ -36,10 +36,11 @@ ActiveRecord::Schema.define(version: 20180208005945) do
 
   create_table "messages", force: :cascade do |t|
     t.bigint "sender_id"
+    t.bigint "recepient_id"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "recepient_id"
+    t.index ["recepient_id"], name: "index_messages_on_recepient_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
@@ -74,6 +75,5 @@ ActiveRecord::Schema.define(version: 20180208005945) do
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "reviews"
   add_foreign_key "likes", "users"
-  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "reviews", "users"
 end

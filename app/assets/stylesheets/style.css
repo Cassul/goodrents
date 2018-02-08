@@ -1,0 +1,32 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.sender {
+  /*float: right;*/
+
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.recepient {
+  /*float: left;*/
+  margin: 5px 0 0 0;
+  width: 100%;
+  display: flex
+  justify-content: flex-start;
+}
+
+.sender > .message-details {
+  width: 40%;
+    background-color: blue;
+}
+
+.recepient > .message-details {
+    background-color: green;
+    width: 40%;
+}

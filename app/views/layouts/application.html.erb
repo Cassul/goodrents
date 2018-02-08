@@ -17,19 +17,49 @@
   </head>
 
   <body>
-    <h1>GOOD RENTS</h1>
-    <%if !session[:user_id]%>
-      <a href="/login">LOGIN</a>
-      <hr>
-    <%else%>
-      <p>Logged in as <%=session[:user_name]%></p>
-      <form class="" action="/sessions" method="post">
-        <input type="hidden" name="_method" value="delete">
-        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-        <button >LOGOUT</button>
-      </form>
-      <hr>
-    <%end%>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">Goodrents</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <% if !logged_in? %>
+          <li class="nav-item active">
+            <a class="nav-link" href="/login">Log in<span class="sr-only">(current)</span></a>
+          </li>
+          <% end %>
+          <li class="nav-item">
+            <a class="nav-link
+            <% if logged_in? %>
+              disabled
+            <% end %>
+            " href="/users/new">Sign up</a>
+          </li>
+          <% if logged_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Logged in as <%= session[:user_name] %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/users/<%= session[:user_id] %>">User details</a>
+              <a class="dropdown-item" href="/messages">Messages</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">My reviews</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <form class="" action="/sessions" method="post">
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+              <button class="nav-link">LOGOUT</button>
+            </form>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+    
     <%= yield %>
   </body>
 </html>

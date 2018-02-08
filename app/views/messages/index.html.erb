@@ -1,0 +1,9 @@
+<div id="list-example" class="list-group">
+<h1>Messages</h1>
+
+<ul id="messages">
+  <% @all_interactors_id.each do |id| %>
+  <li><a class="list-group-item list-group-item-action" href="/messages/new?from=<%= session[:user_id]%>&to=<%= id %>"><%= User.find(id).username %></a></li>
+   <% end %>
+</ul>
+</div>
