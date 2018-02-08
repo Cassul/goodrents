@@ -1,5 +1,19 @@
+.goodrents-title {
+	font-size: 50px;
+	margin: 20px;
+	color: darkgrey;
+}
+
+.search-input-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
 #search-input {
-	width: 50%;
+	width: 70%;
+	margin: 20px;
+	font-size: 30px;
 }
 
 .marker {
