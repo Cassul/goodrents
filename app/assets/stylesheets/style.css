@@ -4,29 +4,29 @@
 
 }
 
-.me {
+.sender {
   /*float: right;*/
 
-  margin: 0;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.others {
-  /*float: left;*/
   margin: 0;
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
-.me > .message-details {
-  width: 50%;
+.recepient {
+  /*float: left;*/
+  margin: 0;
+  width: 100%;
+  display: flex
+  justify-content: flex-start;
+}
+
+.sender > .message-details {
+  width: 40%;
     background-color: blue;
 }
 
-.others > .message-details {
+.recepient > .message-details {
     background-color: green;
-    width: 50%;
+    width: 40%;
 }

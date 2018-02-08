@@ -5,9 +5,9 @@
     <% @conversation.each do |message| %>
       <div 
         <% if message.sender_id === session[:user_id]%>
-        class="me"
+        class="sender"
         <% end %>
-        class="others"
+        class="recepient"
         >
         <div class="message-details">
           <p><%= message.body %></p>
