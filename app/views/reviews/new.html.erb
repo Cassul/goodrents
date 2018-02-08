@@ -2,12 +2,19 @@
     <div class="propertyInfo">
         <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
         <label for="">Address:</label>
-        <input id="address" type="text" placeholder="Search an address">
-        <input id="address-hidden" name="address" type="hidden">
+        <% if @address %>
+            <input id="address" readonly value="<%= @address %>">
+            <input id="address-hidden" name="address" type="hidden" value="<%= @address%>">
+            <label for="">suburb:</label>
+            <input readonly name="suburb" value="<%= @suburb %>">
+            <input type="hidden" name="review_id" value="<%= @id %>">
+        <% else %>
+            <input id="address" type="text" placeholder="Search an address">
+            <input id="address-hidden" name="address" type="hidden">
+            <label for="">suburb:</label>
+            <input id="suburb" type="text" name="suburb" value="" readonly>
+        <% end %>
         
-        <label for="">suburb:</label>
-        <input id="suburb" type="text" name="suburb" value="" readonly> <br>
-
         <label for="">Property Type</label>
         <input type="text" name="type">
         <label for="">Bedroom(s)</label>
@@ -18,7 +25,7 @@
         <label for="">Utility:</label>
         <div id="utility" class="starRating"></div>
         <input id="utility_input" type="hidden" name="utility" value="0">
-        
+
         <label for="">Landlord:</label>
         <div id="landlord" class="starRating"></div>
         <input id="landlord_input" type="hidden" name="landlord" value="0">
@@ -33,7 +40,7 @@
 
         <label for="">Comment:</label> <br>
         <textarea name="comment" rows="8" cols="80" ></textarea>
-        
+
         <!-- hidden inputs for lat and long -->
         <input id="lat-hidden" type="hidden" name="lat">
         <input id="long-hidden" type="hidden" name='long'>
@@ -42,8 +49,16 @@
     </div>
 </form>
 
+<% if @errors %>
+    <div>
+    <% @errors.each do |error| %>
+        <p><%= error %></p>
+    <% end %>
+    </div>
+<% end %>
+
 <script>
-    
+
     $('.starRating').rateYo({
         starWidth: "40px",
         normalFill: "#A0A0A0",
@@ -58,27 +73,30 @@
     })
 
     function init() {
-        var $addressInput = document.querySelector('#address')
-        var options = {
-            componentRestrictions: { country: 'au' }
+        var addressInput = document.querySelector('#address')
+        // when there is a value there already dont allow autocomplete, for creating new review for existing property
+        if (addressInput.value === '') {
+            var options = {
+                componentRestrictions: { country: 'au' }
+            }
+
+            var addressSearch = new google.maps.places.Autocomplete(addressInput, options)
+
+            addressSearch.addListener('place_changed', function() {
+                var places = addressSearch.getPlace();
+                if (places.length === 0) { return }
+
+                $('#address-hidden').attr('value', places.formatted_address);
+                $('#suburb').attr('value', places.vicinity);
+                $('#lat-hidden').attr('value', places.geometry.location.lat());
+                $('#long-hidden').attr('value', places.geometry.location.lng());
+            })
         }
-
-        var addressSearch = new google.maps.places.Autocomplete($addressInput, options)
-
-        addressSearch.addListener('place_changed', function() {
-            var places = addressSearch.getPlace();
-            if (places.length === 0) { return }
-
-            $('#address-hidden').attr('value', places.formatted_address);
-            $('#suburb').attr('value', places.vicinity);
-            $('#lat-hidden').attr('value', places.geometry.location.lat());
-            $('#long-hidden').attr('value', places.geometry.location.lng());
-            debugger;
-        })
     }
-    
+
 </script>
 
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7YBuHg-EpjHUU__6aBn14UDPLo86aeCc&libraries=places&callback=init"> // using the rentalscheckout@gmail.com API key
 </script>
+
