@@ -1,7 +1,9 @@
-<h1>GoodRents</h1>
+<h1 class="goodrents-title">GoodRents</h1>
 
 <% if logged_in? && has_reviews? %>
-	<input id="search-input" class="controls" type="text" placeholder="Search Address">
+	<div class="search-input-container">
+		<input id="search-input" class="controls" type="text" placeholder="Search Address">
+	</div>
 	<div class="map-reviews-container">
 		<div id="search-map"></div>
 		<div class="reviews-container">
@@ -15,12 +17,14 @@
 
 		var map;
 		var infowindow;
+		var places;
 
 		function initMap() {
 	    	var melbourne = { lat: -37.8136, lng: 144.9631 };
 	   		map = new google.maps.Map(document.querySelector('#search-map'), {
 	        	center: melbourne,
-	        	zoom: 15
+	        	zoom: 15,
+	        	gestureHandling: 'greedy'
 	       	});
 
 	   		// display all the markers in the suburb
@@ -37,7 +41,7 @@
 			// Listen for the event fired when the user selects a prediction and retrieve
 			// more details for that place.
 			searchBox.addListener('places_changed', function() {
-				var places = searchBox.getPlaces();
+				places = searchBox.getPlaces();
 
 				if (places.length == 0) {
 					return;
@@ -144,19 +148,24 @@
 			$.ajax(options)
 			.done(function(response) {
 				if (response && response.length > 0) {
+					var smallHouse = "/assets/green-house-marker.png";
+					// debugger;
 					response.forEach(function(review) {
 						var latLng = new google.maps.LatLng({ lat: parseFloat(review.lat), lng: parseFloat(review.long) });
 						var marker = new google.maps.Marker({
 							map: map,
-							position: latLng
+							position: latLng,
+							icon: smallHouse
 						})
 						marker.addListener('click', function() {
 							// if there is a infowindow open, close it
 							if (infowindow) { infowindow.close() }
-
+							// debugger;
+							FindReviews(review.address)
 							infowindow = new google.maps.InfoWindow();
-							var address = "<a onclick='FindReviews($(this).text())'>" + review.address + "</a>"
-							infowindow.setContent(address);
+							// var address = "<a onclick='FindReviews($(this).text())'>" + review.address + "</a>"
+							// infowindow.setContent(address);
+							infowindow.setContent(review.address)
 							infowindow.open(map, this);
 						});
 					})
@@ -201,7 +210,21 @@
 								</div>"
 					$('.reviews-list').append(createReview)
 				} else {
-					var item = "<span>No Reviews Found</span>"
+					var searchInput = $('#search-input').val();
+					// console.log('search', searchInput);
+					// debugger;
+					var item = 
+						"<span>\
+							No Reviews for this Property\
+						</span>\
+						<form action='/reviews/new' method='post'>\
+							<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>\
+							<input name='address' type='hidden' value='" + searchInput + "'>\
+							<input name='suburb' type='hidden' value='" + places[0].vicinity + "'>\
+							<input name='lat' type='hidden' value='" + places[0].geometry.location.lat() + "'>\
+							<input name='long' type='hidden' value='" + places[0].geometry.location.lng() + "'>\
+							<button>Create New Review</button>\
+						</form>"
 					$('.reviews-list').append(item);
 				}
 			})
@@ -215,7 +238,9 @@
 
 <% elsif logged_in? %>
 
-	<a href="/reviews/new">Create a Review</a>
+	<form action="/reviews/new" method="get">
+		<button>Create a Review</button>
+	</form>
 
 <% end %>
 
