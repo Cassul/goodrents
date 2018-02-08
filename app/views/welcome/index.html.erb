@@ -17,22 +17,17 @@
 		var infowindow;
 
 		function initMap() {
-
 	    	var melbourne = { lat: -37.8136, lng: 144.9631 };
 	   		map = new google.maps.Map(document.querySelector('#search-map'), {
 	        	center: melbourne,
 	        	zoom: 15
 	       	});
 
+	   		// display all the markers in the suburb
+	       	GetSuburbMarkers("Melbourne");
+
 			var input = document.querySelector('#search-input');
-
-			// var options = {
-			// 	componentRestrictions: { country: 'au' }
-			// }
-
 			var searchBox = new google.maps.places.SearchBox(input);
-
-			//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // puts the search box on the map, probably don't need
 
 			map.addListener('bounds_changed', function() {
 				searchBox.setBounds(map.getBounds());
@@ -67,7 +62,7 @@
 						size: new google.maps.Size(71, 71),
 						origin: new google.maps.Point(0, 0),
 						anchor: new google.maps.Point(17, 34),
-						scaledSize: new google.maps.Size(25, 25)
+						scaledSize: new google.maps.Size(30, 30)
 					};
 
 					// Create a marker for each place.
@@ -86,14 +81,20 @@
 						bounds.extend(place.geometry.location);
 					}
 
-					FindReviews(place.formatted_address);
 
 					// show info window on click, move map to center on click
 					google.maps.event.addListener(markers[0], 'click', function() {
 						infowindow = new google.maps.InfoWindow();
 						infowindow.setContent(place.formatted_address);
 						infowindow.open(map, this)
+						map.setCenter(places[0].geometry.location);
+						map.setZoom(18);
 					})
+
+					// find reviews for the searched rental
+					FindReviews(place.formatted_address);
+					// place the markers in the same suburb
+					GetSuburbMarkers(place.vicinity);
 
 				});
 
@@ -133,8 +134,37 @@
 			})
 		}
 
-		function FindReviews(searchString) {
+		function GetSuburbMarkers(suburb) {
+			var options = {
+				url: '/api/reviews/suburb',
+				method: 'get',
+				data: { suburb: suburb }
+			}
 
+			$.ajax(options)
+			.done(function(response) {
+				if (response && response.length > 0) {
+					response.forEach(function(review) {
+						var latLng = new google.maps.LatLng({ lat: parseFloat(review.lat), lng: parseFloat(review.long) });
+						var marker = new google.maps.Marker({
+							map: map,
+							position: latLng
+						})
+						marker.addListener('click', function() {
+							// if there is a infowindow open, close it
+							if (infowindow) { infowindow.close() }
+
+							infowindow = new google.maps.InfoWindow();
+							var address = "<a onclick='FindReviews($(this).text())'>" + review.address + "</a>"
+							infowindow.setContent(address);
+							infowindow.open(map, this);
+						});
+					})
+				}
+			})
+		}
+
+		function FindReviews(searchString) {
 			// empty the container before adding new items to list
 			$('.reviews-list').empty();
 
@@ -148,15 +178,28 @@
 			.done(function(response) {
 				if (response.length > 0) {
 					response.forEach(function(review) {
+						// debugger;
 						var reviewItem = 
-						"<a href=''>\
+						"<a href='/reviews/" + review.review_details.id + "'>\
 							<div class='review'>\
-								<span>" + review.address + "</span>\
+								<div class='review-comment'>\
+									<p>" + review.review_details.comment + "</p>\
+								</div>\
+								<div class='review-username'>\
+									<p>" + review.username + "</p>\
+								</div>\
 							</div>\
 						</a>"
 
 						$('.reviews-list').append(reviewItem);
 					})
+					var createReview = 
+								"<div class='create-review-button-container'>\
+									<form action='/reviews/new/" + response[0].review_details.id + "' method='get'>\
+										<button class='create-review-button'>Create New Review</button>\
+									</form>\
+								</div>"
+					$('.reviews-list').append(createReview)
 				} else {
 					var item = "<span>No Reviews Found</span>"
 					$('.reviews-list').append(item);
@@ -169,6 +212,7 @@
 	<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7YBuHg-EpjHUU__6aBn14UDPLo86aeCc&libraries=places&callback=initMap"> // using the rentalscheckout@gmail.com API key
 	</script>
+
 <% elsif logged_in? %>
 
 	<a href="/reviews/new">Create a Review</a>

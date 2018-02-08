@@ -2,12 +2,19 @@
     <div class="propertyInfo">
         <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
         <label for="">Address:</label>
-        <input id="address" type="text" placeholder="Search an address">
-        <input id="address-hidden" name="address" type="hidden">
-
-        <label for="">suburb:</label>
-        <input id="suburb" type="text" name="suburb" value="" readonly> <br>
-
+        <% if @address %>
+            <input id="address" readonly value="<%= @address %>">
+            <input id="address-hidden" name="address" type="hidden" value="<%= @address%>">
+            <label for="">suburb:</label>
+            <input readonly name="suburb" value="<%= @suburb %>">
+            <input type="hidden" name="review_id" value="<%= @id %>">
+        <% else %>
+            <input id="address" type="text" placeholder="Search an address">
+            <input id="address-hidden" name="address" type="hidden">
+            <label for="">suburb:</label>
+            <input id="suburb" type="text" name="suburb" value="" readonly>
+        <% end %>
+        
         <label for="">Property Type</label>
         <input type="text" name="type">
         <label for="">Bedroom(s)</label>
@@ -42,6 +49,14 @@
     </div>
 </form>
 
+<% if @errors %>
+    <div>
+    <% @errors.each do |error| %>
+        <p><%= error %></p>
+    <% end %>
+    </div>
+<% end %>
+
 <script>
 
     $('.starRating').rateYo({
@@ -58,23 +73,25 @@
     })
 
     function init() {
-        var $addressInput = document.querySelector('#address')
-        var options = {
-            componentRestrictions: { country: 'au' }
+        var addressInput = document.querySelector('#address')
+        // when there is a value there already dont allow autocomplete, for creating new review for existing property
+        if (addressInput.value === '') {
+            var options = {
+                componentRestrictions: { country: 'au' }
+            }
+
+            var addressSearch = new google.maps.places.Autocomplete(addressInput, options)
+
+            addressSearch.addListener('place_changed', function() {
+                var places = addressSearch.getPlace();
+                if (places.length === 0) { return }
+
+                $('#address-hidden').attr('value', places.formatted_address);
+                $('#suburb').attr('value', places.vicinity);
+                $('#lat-hidden').attr('value', places.geometry.location.lat());
+                $('#long-hidden').attr('value', places.geometry.location.lng());
+            })
         }
-
-        var addressSearch = new google.maps.places.Autocomplete($addressInput, options)
-
-        addressSearch.addListener('place_changed', function() {
-            var places = addressSearch.getPlace();
-            if (places.length === 0) { return }
-
-            $('#address-hidden').attr('value', places.formatted_address);
-            $('#suburb').attr('value', places.vicinity);
-            $('#lat-hidden').attr('value', places.geometry.location.lat());
-            $('#long-hidden').attr('value', places.geometry.location.lng());
-            debugger;
-        })
     }
 
 </script>
@@ -82,3 +99,4 @@
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7YBuHg-EpjHUU__6aBn14UDPLo86aeCc&libraries=places&callback=init"> // using the rentalscheckout@gmail.com API key
 </script>
+
