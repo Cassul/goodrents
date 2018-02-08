@@ -13,5 +13,5 @@ class User < ApplicationRecord
   confirmation: true
   validates :password,
   presence: true
-  has_many:likes
+  has_many :likes
 end
