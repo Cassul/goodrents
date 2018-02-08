@@ -23,6 +23,10 @@
 
 .map-reviews-container {
 	display: flex;
+	width: 100%;
+	margin: 0 auto;
+	background-color: #e6e6e6;
+	border: 3px solid #cccccc;
 }
 
 #search-map {
@@ -32,4 +36,32 @@
 
 .reviews-container {
 	width: 30%;
+	box-shadow: 3px 0 5px 0 black;
+	margin: 4px;
+	background-color: #80BE40;
+	padding: 2px;
+}
+
+.reviews-header {
+	border-bottom: 1px solid black;
+}
+
+.reviews-header h2 {
+	text-align: center;
+}
+
+.reviews-list a:hover {
+	text-decoration: none;
+}
+
+.review {
+	border: 1px solid black;
+}
+
+.review-comment {
+
+}
+
+.review-username {
+	text-align: right;
 }

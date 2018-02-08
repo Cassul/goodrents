@@ -23,7 +23,8 @@
 	    	var melbourne = { lat: -37.8136, lng: 144.9631 };
 	   		map = new google.maps.Map(document.querySelector('#search-map'), {
 	        	center: melbourne,
-	        	zoom: 15
+	        	zoom: 15,
+	        	gestureHandling: 'greedy'
 	       	});
 
 	   		// display all the markers in the suburb
