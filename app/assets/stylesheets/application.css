@@ -13,8 +13,4 @@
  *= require_tree .
  *= require_self
  */
-nav a {
-  margin-right: 15%;
-  margin-left: 5%;
-  font-size: 30px;
-}
+
