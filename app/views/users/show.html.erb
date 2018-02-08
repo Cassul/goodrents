@@ -2,7 +2,7 @@
 <h1><%=@user.username%></h1>
 <%if session[:user_id] != @user.id%>
   <div class="msgBox">
-    <a href="/messages/new?user_id=<%= @user.id %>"><i class="far fa-comment-alt"></i> Message <%=@user.username%>
+    <a href="/messages/new?from=<%= session[:user_id] %>&to=<%= @user.id %>"><i class="far fa-comment-alt"></i> Message <%=@user.username%>
     </a>
   </div>
 <%end%>

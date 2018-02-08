@@ -2,27 +2,29 @@
   <h1><%= User.find(@recepient).username %></h1>
   <hr>
   <div class="message-container">
-    <% @conversation.each do |message| %>
-      <div 
-        <% if message.sender_id === session[:user_id]%>
-        class="sender"
-        <% end %>
-        class="recepient"
-        >
-        <div class="message-details">
-          <p><%= message.body %></p>
-          <p><%= message.created_at %></p>
+    <div class="messages">
+      <% @conversation.each do |message| %>
+        <div 
+          <% if message.sender_id === session[:user_id]%>
+          class="sender"
+          <% end %>
+          class="recepient"
+          >
+          <div class="message-details">
+            <p><%= message.body %></p>
+            <p><%= message.created_at %></p>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+    <div id="message_input">
+      <form class="" action="/messages" method="post">
+         <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+         <input type="hidden" name="recepient_id" value="<%= params['to'] %>">
+         <input type="text" name="body">
+         <button>SUBMIT</button>
+      </form>
+    </div>
   </div>
-  <footer>
-    <form class="" action="/messages" method="post">
-       <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-       <input type="hidden" name="recepient_id" value="<%= params['to'] %>">
-       <input type="text" name="body">
-       <button>SUBMIT</button>
-    </form>
-  </footer>
 
-</div>
+

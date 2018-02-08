@@ -1,0 +1,29 @@
+<% if params['suburb'] %>
+<h1>All reviews for <%= params['suburb'] %></h1>
+
+<ol>
+  <% @reviews_of_same_address.each do |review| %>
+  <li>
+    <a href="/reviews/<%= review.id %>"><%= review.address %></a>
+    <p><%= review.comment %></p>
+    <img class="suburb_reviews" src="<%= review.img %>">
+  </li>
+  <% end %>
+</ol>
+<% end %>
+
+<% if params['address'] %>
+<% if @reviews.length > 0 %>
+<h1>All reviews for <%= params['address'] %></h1>
+
+<ol>
+  <% @reviews.each do |review| %>
+  <li>
+    <a href="/reviews/<%= review.id %>"><%= review.address %></a>
+    <p><%= review.comment %></p>
+    <img class="suburb_reviews" src="<%= review.img %>">
+  </li>
+  <% end %>
+</ol>
+<% end %>
+<% end %>
