@@ -1,3 +1,12 @@
+* {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.good {
+  color: red;
+}
+
+
 .message-container {
   display: flex;
   flex-direction: column;
@@ -37,4 +46,20 @@
 
 #message_input {
   width: 100%;
+}
+
+.center_logout {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.logout {
+  border: none;
+  padding: none;
+  background: none;
+}
+
+.suburb_reviews {
+  width: 300px;
 }
