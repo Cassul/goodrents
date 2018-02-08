@@ -6,6 +6,18 @@ class ReviewsController < ApplicationController
 	  @comments = Comment.where(review_id: params[:id])
 	end
 
+	def new
+	end
+
+	def new_id
+		@id = params[:id]
+		review = Review.find_by(id: @id)
+		@address = review.address
+		@suburb = review.suburb		
+		
+		render :new
+	end
+
 	def create
   		property = Review.new
  		property.address = params[:address]
@@ -23,19 +35,44 @@ class ReviewsController < ApplicationController
     	property.long = params[:long]
 
     	if property.save
-	        redirect_to '/'
-    	else
-    		@errors = property.errors.full_message
-    		render :create
+	        redirect_to '/reviews/' + property.id.to_s
+     	else
+    		@errors = property.errors.full_messages
+
+    		if params[:review_id]
+    			redirect_to '/reviews/new/' + params[:review_id]
+    		else	
+    			render :new
+    		end
     	end
 	end
   
-  def destroy
-    if logged_in? && @current_user.id === Review.find(params[:id])[:user_id]
-      @review = Review.destroy(params[:id])
-      redirect_to '/'
-    else 
-      redirect_to review_path
-    end
-  end
+  	def destroy
+    	if logged_in? && @current_user.id === Review.find(params[:id])[:user_id]
+      		@review = Review.destroy(params[:id])
+      		redirect_to '/'
+		else 
+  			redirect_to review_path
+  		end
+  	end
+
+	def api_show
+		reviews = Review.where(address: params[:searchAddress])
+
+		review_array = []
+		reviews.each do |review|
+			review_obj = {}
+			review_obj["review_details"] = review
+			review_obj["username"] = review.user.username
+			review_array << review_obj
+		end
+		
+		render json: review_array
+	end
+
+	def api_show_suburb
+		reviews = Review.where(suburb: params[:suburb])
+
+		render json: reviews
+	end
 end

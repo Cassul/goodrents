@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   get '/login', to: 'users#login'
   post '/sessions', to: 'sessions#create'
   delete '/sessions', to: 'sessions#destroy'
-  get '/api/reviews', to: 'welcome#api_show'
+
+  get '/reviews/new/:id', to: 'reviews#new_id'
+
+  get '/api/reviews', to: 'reviews#api_show'
+  get '/api/reviews/suburb', to: 'reviews#api_show_suburb'
+
   get '/api/users', to: 'users#api_show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
