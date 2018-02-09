@@ -1,16 +1,16 @@
 class ReviewsController < ApplicationController
 	include SessionsHelper
 
-  def index
-    if params['suburb']
-    @reviews_of_same_address = Review.where(suburb: params['suburb'])
-    end
-    @reviews = Review.where(address: params['address'])
-  end
+	def index
+	    if params['suburb']
+	    	@reviews_of_same_address = Review.where(suburb: params['suburb'])
+	    end
+	    @reviews = Review.where(address: params['address'])
+ 	 end
 
 	def show 
-	  @review = Review.find(params[:id])
-	  @comments = Comment.where(review_id: params[:id])
+	 	@review = Review.find(params[:id])
+	  	@comments = Comment.where(review_id: params[:id])
 	end
 
 	def new
@@ -53,6 +53,7 @@ class ReviewsController < ApplicationController
     	property.long = params[:long]
 
     	if property.save
+    		
 	        redirect_to '/reviews/' + property.id.to_s
      	else
     		@errors = property.errors.full_messages
