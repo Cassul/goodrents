@@ -6,48 +6,6 @@
   color: red;
 }
 
-
-.message-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.sender {  
-  margin: 0 0 10px 0;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.recepient {
-  margin: 0 0 10px 0;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.sender > .message-details {
-  border-radius: 15px;
-  padding: 10px;
-  width: 55%;
-  background-color: green;
-}
-
-.recepient > .message-details {
-  border-radius: 15px;
-  padding: 10px;
-  background-color: grey;
-  width: 55%;
-}
-
-.messages {
-  width: 100%;
-}
-
-#message_input {
-  width: 100%;
-}
-
 .center_logout {
   display: flex;
   justify-content: center;
