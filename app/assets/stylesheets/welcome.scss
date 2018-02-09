@@ -1,9 +1,3 @@
-.goodrents-title {
-	font-size: 50px;
-	margin: 20px;
-	color: darkgrey;
-}
-
 .search-input-container {
 	width: 100%;
 	display: flex;
@@ -12,7 +6,7 @@
 
 #search-input {
 	width: 70%;
-	margin: 20px;
+	margin: 40px;
 	font-size: 30px;
 }
 
@@ -43,7 +37,13 @@
 }
 
 .reviews-header {
-	border-bottom: 1px solid black;
+	// border-bottom: 1px solid black;
+}
+
+.underline {
+	border: 1px solid black;
+	width: 70%;
+	margin: 0 auto;
 }
 
 .reviews-header h2 {
@@ -55,14 +55,46 @@
 }
 
 .review {
-	border: 1px solid black;
+	border: 2px solid black;
 	margin: 15px 5px;
+	color: black;
+	padding: 10px;
+	border-radius: 5px;
 }
 
 .review-comment {
-
+	font-size: 18px;
 }
 
 .review-username {
 	text-align: right;
 }
+
+.review-username p {
+	font-style: italic;
+	margin: 0;
+}
+
+.review-username .username {
+	margin-left: 10px;
+}
+
+.create-review-button-container {
+	text-align: center;
+	font-size: 25px;
+}
+
+.no-review-container {
+	text-align: center;
+}
+
+.no-reviews-text {
+	font-size: 20px;
+	margin: 20px 0;
+}
+
+.create-review-button {
+	font-size: 25px;
+}
+
+

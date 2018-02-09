@@ -18,48 +18,51 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/"><span class="good">Good</span><span class="rents">rents</span></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <% if !logged_in? %>
-          <li class="nav-item active">
-            <a class="nav-link" href="/login">Log in<span class="sr-only">(current)</span></a>
-          </li>
-          <% end %>
-          <li class="nav-item">
-            <a class="nav-link
-            <% if logged_in? %>
-              disabled
+    <% if logged_in? %>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"><span class="good">Good</span><span class="rents">rents</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <% if !logged_in? %>
+            <li class="nav-item active">
+              <a class="nav-link" href="/login">Log in<span class="sr-only">(current)</span></a>
+            </li>
             <% end %>
-            " href="/users/new">Sign up</a>
-          </li>
-          <% if logged_in? %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Logged in as <%= session[:user_name] %>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/users/<%= session[:user_id] %>">User details</a>
-              <a class="dropdown-item" href="/messages">Messages</a>
-              <div class="dropdown-divider"></div>
-              <div class="center_logout">
-                <form class="" action="/sessions" method="post">
-                  <input type="hidden" name="_method" value="delete">
-                  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-                  <button class="logout nav-link">LOGOUT</button>
-                </form>
-                </div>
-            </div>
-          </li>
-          <% end %>
-        </ul>
-      </div>
-    </nav>
+            <li class="nav-item">
+              <a class="nav-link
+              <% if logged_in? %>
+                disabled
+              <% end %>
+              " href="/users/new">Sign up</a>
+            </li>
+            <% if logged_in? %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Logged in as <%= session[:user_name] %>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/users/<%= session[:user_id] %>">User details</a>
+                <a class="dropdown-item" href="/messages">Messages</a>
+                <div class="dropdown-divider"></div>
+                <div class="center_logout">
+                  <form class="" action="/sessions" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+                    <button class="logout nav-link">LOGOUT</button>
+                  </form>
+                  </div>
+              </div>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+    <% end %>
     
     <%= yield %>
+
   </body>
 </html>
