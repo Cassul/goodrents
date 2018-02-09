@@ -9,7 +9,9 @@ class SessionsController < ApplicationController
       session[:user_name] = user.username
       redirect_to '/'
     else
-      redirect_to '/login'
+      errors = "Email or Password is incorrect"
+
+      redirect_to '/login', :flash => { :error => errors }
     end
 
   end
