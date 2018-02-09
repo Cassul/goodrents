@@ -37,7 +37,7 @@
 }
 
 .ratings-container > * {
-	margin-bottom: 8px;
+	margin-bottom: 12px;
 }
 
 .new-review-bottom-container {
@@ -49,13 +49,27 @@
 	flex-direction: column;
 }
 
+.propertyInfo > * {
+	margin-bottom: 8px;
+}
+
 .new-review-textarea {
 	resize: none;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.new-review-textarea:focus {
+	outline: none;
 }
 
 .create-review-button {
 	vertical-align: top;
 	margin-left: 50px;
+}
+
+.create-review-button-index {
+	font-size: 25px;
 }
 
 

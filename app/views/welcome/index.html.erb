@@ -201,7 +201,7 @@
 					var createReview = 
 								"<div class='create-review-button-container'>\
 									<form action='/reviews/new/" + response[0].review_details.id + "' method='get'>\
-										<button class='create-review-button'>Create New Review</button>\
+										<button class='create-review-button-index btn btn-secondary'>Create New Review</button>\
 									</form>\
 								</div>"
 					$('.reviews-list').append(createReview)
@@ -218,7 +218,7 @@
 								<input name='suburb' type='hidden' value='" + places[0].vicinity + "'>\
 								<input name='lat' type='hidden' value='" + places[0].geometry.location.lat() + "'>\
 								<input name='long' type='hidden' value='" + places[0].geometry.location.lng() + "'>\
-								<button class='create-review-button'>Create New Review</button>\
+								<button class='create-review-button btn btn-secondary'>Create New Review</button>\
 							</form>\
 						</div>"
 					$('.reviews-list').append(item);
@@ -234,10 +234,12 @@
 
 <% elsif logged_in? %>
 
-	<h1>Create a Review first to view the Map</h1>
-	<form action="/reviews/new" method="get">
-		<button>Create a Review</button>
-	</form>
+	<div class="first-review-container">
+		<h1 class="first-review-title">Create your first review to see the map</h1>
+		<form action="/reviews/new" method="get">
+			<button class="first-review-button btn btn-secondary">Create a Review</button>
+		</form>
+	</div>
 
 <% else %>
 	<h1>Please Login First</h1>
