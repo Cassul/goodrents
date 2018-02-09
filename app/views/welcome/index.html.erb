@@ -233,17 +233,21 @@
 	</script>
 
 <% elsif logged_in? %>
-
 	<div class="first-review-container">
 		<h1 class="first-review-title">Create your first review to see the map</h1>
 		<form action="/reviews/new" method="get">
 			<button class="first-review-button btn btn-secondary">Create a Review</button>
 		</form>
 	</div>
-
 <% else %>
-	<h1>Please Login First</h1>
-	<a href="/login">Login Page</a>
+	<div class="first-login">
+		<h1><span class="good">Good</span>Rents</h1>
+		<div class="first-login-details">
+			<a href="/login">
+				<h1>Please Login First</h1>
+			</a>
+		</div>
+	</div>
 <% end %>
 
 
