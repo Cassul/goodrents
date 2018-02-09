@@ -10,13 +10,13 @@
                 <% if @address %>
                     <input id="address" readonly value="<%= @address %>">
                     <input id="address-hidden" name="address" type="hidden" value="<%= @address%>">
-                    <label for="">suburb:</label>
+                    <label for="">Suburb:</label>
                     <input readonly name="suburb" value="<%= @suburb %>">
                     <input type="hidden" name="review_id" value="<%= @id %>">
                 <% else %>
                     <input id="address" type="text" placeholder="Search an address">
                     <input id="address-hidden" name="address" type="hidden">
-                    <label for="">suburb:</label>
+                    <label for="">Suburb:</label>
                     <input id="suburb" type="text" name="suburb" value="" readonly>
                 <% end %>
                 

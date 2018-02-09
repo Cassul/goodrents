@@ -7,7 +7,14 @@
 #search-input {
 	width: 70%;
 	margin: 40px;
-	font-size: 30px;
+	font-size: 25px;
+	border-radius: 10px;
+	padding: 5px 10px;
+	border-color: #cccccc;
+}
+
+#search-input:focus {
+	outline: none;
 }
 
 .marker {
@@ -97,4 +104,19 @@
 	font-size: 25px;
 }
 
+.first-review-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 100px;
+}
 
+.first-review-title {
+	border: 2px solid #cccccc;
+	padding: 10px;
+}
+
+.first-review-button {
+	font-size: 25px;
+	margin-top: 50px;
+}
