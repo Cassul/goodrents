@@ -31,4 +31,10 @@
     </div>
 <%else%>
     <h1>Already signed in as <%=session[:user_name]%></h1>
+    <p>unless you're trapped, then use </p>
+    <form class="" action="/sessions" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+        <button class="logout nav-link">LOGOUT</button>
+      </form>
 <%end%>
