@@ -16,17 +16,18 @@
   <% end %>
   <h2><%= @review.bedrooms %> bedroom <%= @review.property_type %></h2>
   <!-- need to change to star ratings -->
-  <p>Utilities: <%= @review.utilities %></p>
-  <p>Landlord: <%= @review.landlord %></p>
-  <p>Neighbours: <%= @review.neighbours %></p>
-  <p>Neighbourhood: <%= @review.neighbourhood %></p>
-  <p>Comment: <%= @review.comment %></p>
+
+  <p>Utilities: <div class='starReadOnly' data-rateyo-rating='<%= @review.utilities.to_i %>'></div></p>
+  <p>Landlord: <div class='starReadOnly' data-rateyo-rating='<%= @review.landlord.to_i %>'></div></p>
+  <p>Neighbours: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbours.to_i %>'></div></p>
+  <p>Neighbourhood: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbourhood.to_i %>'></div></p>
 
   <img src="<%= @review.img %>">
   <br>
   <div class="review_opt">
     <div>
-      <%= link_to "<< Back to all reviews", reviews_path %>
+      <a href="/reviews?suburb=<%= @review.suburb %>">Check all reviews for this suburb</a>
+      <a href="/reviews?address=<%= @review.address %>">Check other reviews for this property</a>
     </div>
   </div>
   <% if session[:user_id] %>
@@ -82,7 +83,7 @@
       var option
       $('#likeBtn').on('click',function(){
           $(this).toggleClass('color')
-          if($(this).hasClass('color')){
+          if ($(this).hasClass('color')){
               option = {
                 url: '/likes',
                 method: 'post',
@@ -96,8 +97,8 @@
                     likesObj.text(likesCount)
               })
 
-          }else{
-            option={
+          } else {
+            option = {
               url:'/likes',method:'delete',data:{review_id:reviewId}}
               $.ajax(option).done(function(res){
                     console.log(res)
@@ -107,6 +108,15 @@
 
               )}
 
+      })
+
+      // setup star rating in review (readyOnly)
+      $('.starReadOnly').rateYo({
+        starWidth: "40px",
+        normalFill: "#A0A0A0",
+        ratedFill: "rgb(243, 156, 18)",
+        fullStar: true,
+        readOnly: true
       })
 
   </script>

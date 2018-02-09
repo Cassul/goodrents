@@ -1,9 +1,13 @@
 class ReviewsController < ApplicationController
 	include SessionsHelper
 
-	def index
-		@reviews=Review.all
-	end
+
+  def index
+    if params['suburb']
+    @reviews_of_same_address = Review.where(suburb: params['suburb'])
+    end
+    @reviews = Review.where(address: params['address'])
+  end
 
 
 	def show 
@@ -16,11 +20,22 @@ class ReviewsController < ApplicationController
 	def new
 	end
 
+	def existing
+		@address = params[:address]
+		@suburb = params[:suburb]
+		@lat = params[:lat]
+		@long = params[:long]
+
+		render :new
+	end
+
 	def new_id
 		@id = params[:id]
 		review = Review.find_by(id: @id)
 		@address = review.address
-		@suburb = review.suburb		
+		@suburb = review.suburb
+		@lat = review.lat
+		@long = review.long	
 		
 		render :new
 	end

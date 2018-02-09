@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post '/sessions', to: 'sessions#create'
   delete '/sessions', to: 'sessions#destroy'
 
+  post '/reviews/new/', to: 'reviews#existing'
   get '/reviews/new/:id', to: 'reviews#new_id'
 
   delete '/likes', to: 'likes#destroy'
