@@ -35,9 +35,13 @@
         <input id='review_id'type="hidden" name="review_id" value="<%=@review.id%>">
     <% end %>
   <% end %>
-  <div>
-      <a href="/reviews?suburb=<%= @review.suburb %>">Check all reviews for this suburb</a>
-      <a href="/reviews?address=<%= @review.address %>">Check other reviews for this property</a>
+  </div>
+  <div class="links_to_reviews">
+    <div>
+      <a class="suburb text-primary" href="/reviews?suburb=<%= @review.suburb %>">Check all reviews for this suburb</a>
+    </div>
+    <div>
+      <a class="text-success" href="/reviews?address=<%= @review.address %>">Check other reviews for this property</a>
     </div>
   </div>
   <% if session[:user_id] %>
@@ -49,27 +53,31 @@
         <button>submit</button>
       </form>
     <% else %>
+    <div class="submit_comment">
       <form action="/comments" method="post">
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-        <input type="text" name="body" placeholder="leave your comment">
+        <textarea class="form-control" name="body" rows="8" cols="50" placeholder="leave your comment"></textarea>
         <input type="hidden" name="review" value="<%= @review.id %>">
         <input type="hidden" name="user_id" value="<%= session[:user_id] %>">
         <button>submit</button>
       </form>
+    </div>
     <% end %>
   <% end %>
 
   <% @comments.each do |comment| %>
-  <div class="col-sm-5">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="text-muted"><%= comment.created_at %></span>
-        <span class="text-muted">
-          by <a href="/users/<%= comment.user_id %>"><%= User.find_by(id: comment.user_id).username %></a>
-        </span>
-      </div>
-      <div class="panel-body">
-        <%= comment.body %>
+  <div class="comments">
+    <div class="comment">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="text-muted"><%= comment.created_at %></span>
+          <span class="text-muted">
+            by <a href="/users/<%= comment.user_id %>"><%= User.find_by(id: comment.user_id).username %></a>
+          </span>
+        </div>
+        <div class="panel-body">
+          <%= comment.body %>
+        </div>
       </div>
     </div>
     <% if session[:user_id] === comment.user_id %>

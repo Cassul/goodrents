@@ -1,5 +1,5 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<h1><%=@user.username%></h1>
+<h1><%= @user.username %></h1>
 <%if session[:user_id] != @user.id%>
   <div class="msgBox">
     <a href="/messages/new?from=<%= session[:user_id] %>&to=<%= @user.id %>"><i class="far fa-comment-alt"></i> Message <%=@user.username%>
