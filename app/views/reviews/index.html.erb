@@ -1,0 +1,9 @@
+<h1> Reviews</h1>
+<%@reviews.each do |review|%>
+	<div>
+		<p>Address: </p><a href="/reviews/<%= review.id%>">
+		<%= review.address%></a>
+		<p>Comment: <%= review.comment%></p>
+		<img class='' src="<%= review.img%>" alt="">
+	</div>
+<%end%>

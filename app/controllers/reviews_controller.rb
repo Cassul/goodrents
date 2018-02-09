@@ -1,9 +1,16 @@
 class ReviewsController < ApplicationController
 	include SessionsHelper
 
+	def index
+		@reviews=Review.all
+	end
+
+
 	def show 
+		# pls dont remove this method,otherwise Like button will no longger work
 	  @review = Review.find(params[:id])
 	  @comments = Comment.where(review_id: params[:id])
+	  @liked = Like.where(review_id: params[:id], user_id: session[:user_id]).count > 0
 	end
 
 	def new

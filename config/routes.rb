@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get '/reviews/new/:id', to: 'reviews#new_id'
 
+  delete '/likes', to: 'likes#destroy'
+
   get '/api/reviews', to: 'reviews#api_show'
   get '/api/reviews/suburb', to: 'reviews#api_show_suburb'
 

@@ -9,7 +9,7 @@
       <%else%>
         <p id='likesCount'><%=Like.where(review_id:@review.id).count%></p>
 
-        <button id='likeBtn'>Like</button>
+        <button id='likeBtn'<% if @liked %>class="color"<% end %>>Like</button>
 
         <input id='review_id'type="hidden" name="review_id" value="<%=@review.id%>">
     <% end %>
@@ -20,7 +20,7 @@
   <p>Landlord: <%= @review.landlord %></p>
   <p>Neighbours: <%= @review.neighbours %></p>
   <p>Neighbourhood: <%= @review.neighbourhood %></p>
-  <p><%= @review.comment %></p>
+  <p>Comment: <%= @review.comment %></p>
 
   <img src="<%= @review.img %>">
   <br>
@@ -100,7 +100,9 @@
             option={
               url:'/likes',method:'delete',data:{review_id:reviewId}}
               $.ajax(option).done(function(res){
-
+                    console.log(res)
+                    likesCount=Number(likesCount)-1
+                    likesObj.text(likesCount)
               }
 
               )}
