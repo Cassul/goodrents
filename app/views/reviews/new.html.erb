@@ -1,58 +1,66 @@
-<form action="/reviews/" method="post">
-    <div class="propertyInfo">
-        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-        <label for="">Address:</label>
-        <% if @address %>
-            <input id="address" readonly value="<%= @address %>">
-            <input id="address-hidden" name="address" type="hidden" value="<%= @address%>">
-            <label for="">suburb:</label>
-            <input readonly name="suburb" value="<%= @suburb %>">
-            <input type="hidden" name="review_id" value="<%= @id %>">
-        <% else %>
-            <input id="address" type="text" placeholder="Search an address">
-            <input id="address-hidden" name="address" type="hidden">
-            <label for="">suburb:</label>
-            <input id="suburb" type="text" name="suburb" value="" readonly>
-        <% end %>
-        
-        <label for="">Property Type</label>
-        <input type="text" name="type">
-        <label for="">Bedroom(s)</label>
-        <input type="text" name="bedroom">
-        <label for="">Upload Image</label>
-        <input type="text" name="image">
+<div class="new-review-container">
 
-        <label for="">Utility:</label>
-        <div id="utility" class="starRating"></div>
-        <input id="utility_input" type="hidden" name="utility" value="0">
+    <h2 class="new-review-title">New Review</h2>
 
-        <label for="">Landlord:</label>
-        <div id="landlord" class="starRating"></div>
-        <input id="landlord_input" type="hidden" name="landlord" value="0">
+    <form class="new-review-form" action="/reviews/" method="post">
+        <div class="new-review-top-container">
+            <div class="propertyInfo">
+                <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+                <label for="">Address:</label>
+                <% if @address %>
+                    <input id="address" readonly value="<%= @address %>">
+                    <input id="address-hidden" name="address" type="hidden" value="<%= @address%>">
+                    <label for="">suburb:</label>
+                    <input readonly name="suburb" value="<%= @suburb %>">
+                    <input type="hidden" name="review_id" value="<%= @id %>">
+                <% else %>
+                    <input id="address" type="text" placeholder="Search an address">
+                    <input id="address-hidden" name="address" type="hidden">
+                    <label for="">suburb:</label>
+                    <input id="suburb" type="text" name="suburb" value="" readonly>
+                <% end %>
+                
+                <label for="">Property Type</label>
+                <input type="text" name="type">
+                <label for="">Bedroom(s)</label>
+                <input type="text" name="bedroom">
+                <label for="">Upload Image</label>
+                <input type="text" name="image">
+            </div>
+            <div class="ratings-container">
+                <label for="">Utility:</label>
+                <div id="utility" class="starRating"></div>
+                <input id="utility_input" type="hidden" name="utility" value="0">
 
-        <label for="">Neighbours</label>
-        <div id="neighbours" class="starRating"></div>
-        <input id="neighbours_input" type="hidden" name="neighbours" value="0">
+                <label for="">Landlord:</label>
+                <div id="landlord" class="starRating"></div>
+                <input id="landlord_input" type="hidden" name="landlord" value="0">
 
-        <label for="">Neighbourhood</label>
-        <div id="neighbourhood" class="starRating"></div>
-        <input id="neighbourhood_input" type="hidden" name="neighbourhood" value="0">
+                <label for="">Neighbours:</label>
+                <div id="neighbours" class="starRating"></div>
+                <input id="neighbours_input" type="hidden" name="neighbours" value="0">
 
-        <label for="">Comment:</label> <br>
-        <textarea name="comment" rows="8" cols="80" ></textarea>
+                <label for="">Neighbourhood:</label>
+                <div id="neighbourhood" class="starRating"></div>
+                <input id="neighbourhood_input" type="hidden" name="neighbourhood" value="0">
+            </div>
+        </div>
+        <div class="new-review-bottom-container">
+            <textarea class="new-review-textarea" name="comment" rows="8" cols="80" placeholder="Comment"></textarea>
 
-        <!-- hidden inputs for lat and long -->
-        <% if @lat && @long %>
-            <input id="lat-hidden" type="hidden" name="lat" value="<%= @lat %>">
-            <input id="long-hidden" type="hidden" name='long' value="<%= @long %>">
-        <% else %>
-            <input id="lat-hidden" type="hidden" name="lat">
-            <input id="long-hidden" type="hidden" name='long'>
-        <% end %>
+            <!-- hidden inputs for lat and long -->
+            <% if @lat && @long %>
+                <input id="lat-hidden" type="hidden" name="lat" value="<%= @lat %>">
+                <input id="long-hidden" type="hidden" name='long' value="<%= @long %>">
+            <% else %>
+                <input id="lat-hidden" type="hidden" name="lat">
+                <input id="long-hidden" type="hidden" name='long'>
+            <% end %>
 
-        <button class="create-review-button">Create New Review</button>
-    </div>
-</form>
+            <button class="create-review-button btn btn-secondary">Create New Review</button>
+        </div>
+    </form>
+</div>
 
 <% if @errors %>
     <div>
@@ -74,7 +82,7 @@
     $('.starRating').on('click', function() {
         var itemRating = $(this).rateYo('rating');
         var id = $(this).attr('id');
-        $(this).closest('.propertyInfo').find('#' + id + '_input').attr('value', itemRating)
+        $(this).closest('.ratings-container').find('#' + id + '_input').attr('value', itemRating)
     })
 
     function init() {
