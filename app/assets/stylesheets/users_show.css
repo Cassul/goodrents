@@ -1,0 +1,131 @@
+.review_small_img {
+  width: 300px;
+  min-height: 400px;
+}
+
+.wrapper {
+  margin: 2px;
+}
+
+.suburb_reviews {
+  width: 300px;
+}
+
+.small {
+  width: 300px;
+}
+
+.username_user_show {
+  text-align: center;
+  margin-bottom: 30px; 
+}
+
+#address {
+  width: 400px;
+}
+
+.address {
+  display: block;
+  font-size: 20px;
+}
+
+
+.allReviews {
+  width:45%;
+  margin: 0 auto;
+  display:inline-block;
+  overflow: hidden;
+
+}
+
+.user_show_wrapper {
+  padding: 30px;
+}
+
+.allComments {
+  max-width: 40%;
+  padding: 20px;  
+}
+
+// LOGIN CSS
+
+.login-container-main {
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.login-header {
+  text-align: center;
+  font-size: 50px;
+}
+
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form > * {
+  margin-bottom: 20px;
+}
+
+.login-button-container {
+  text-align: center;
+}
+
+.login-button {
+  width: 50%;
+  font-size: 25px;
+}
+
+.errors-text {
+  font-size: 20px;
+}
+
+.signup-button-container {
+  text-align: center;
+}
+
+.signup-button {
+  font-size: 25px;
+}
+
+// User Registration
+
+.registration-main-container {
+  margin: 50px 0 0 50px;
+}
+
+.registration-container {
+  height: 80%;
+  margin-top: 50px;
+}
+
+.signup-form {
+  width: 50%;
+  margin-top: 25px;
+}
+
+.signup-form > * {
+  margin-bottom: 20px;
+}
+
+.register-button {
+  font-size: 25px;
+  margin-top: 20px;
+}

@@ -22,7 +22,7 @@
         <form class="" action="/messages" method="post">
            <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
            <input type="hidden" name="recepient_id" value="<%= params['to'] %>">
-           <textarea class="form-control" name="body" rows="10" cols="50">write your message</textarea>
+           <textarea class="form-control" name="body" rows="10" cols="50" placeholder="write your message"></textarea>
            <button class="btn under_textarea btn-secondary">SUBMIT</button>
         </form>
       </div>
