@@ -147,7 +147,7 @@
 			$.ajax(options)
 			.done(function(response) {
 				if (response && response.length > 0) {
-					var smallHouse = "/assets/green-house-marker.png";
+					var smallHouse = "/green-house-marker.png";
 					response.forEach(function(review) {
 						var latLng = new google.maps.LatLng({ lat: parseFloat(review.lat), lng: parseFloat(review.long) });
 						var marker = new google.maps.Marker({
