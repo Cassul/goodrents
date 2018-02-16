@@ -1,19 +1,23 @@
-<h1>User Registration</h1>
-<form class="signup-form needs-validation" novalidate action="/users" method="post">
-    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-    <div class="userinfo">
-        <input id="username" class="form-control" type="text" name="user_name" placeholder="User name" required>
-        <div id="username-feedback" class="invalid-feedback">Enter a username</div>
+<div class="registration-main-container">
+    <h1><span class="good">Good</span>Rents</h1>
 
-        <input id="email" class="form-control" type="email" name="email" placeholder="Email" required>
-        <div id="email-feedback" class="invalid-feedback">Enter an email address</div>
+    <div class="registration-container">
+        <h2>New User Registration</h2>
+        <form class="signup-form needs-validation" novalidate action="/users" method="post">
+            <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+            <input id="username" class="form-control" type="text" name="user_name" placeholder="User name" required>
+            <div id="username-feedback" class="invalid-feedback">Enter a username</div>
 
-        <input id="password" class="form-control" type="password" name="password" placeholder="Password" required>
-        <div id="password-feedback" class="invalid-feedback">Enter a password</div>
-        <button class="register-button">Register New User</button>
+
+            <input id="email" class="form-control" type="email" name="email" placeholder="Email" required>
+            <div id="email-feedback" class="invalid-feedback">Enter an email address</div>
+
+            <input id="password" class="form-control" type="password" name="password" placeholder="Password" required>
+            <div id="password-feedback" class="invalid-feedback">Enter a password</div>
+            <button class="register-button btn btn-secondary">Register New User</button>
+        </form>
     </div>
-    
-</form>
+</div>
 
 <% if @errors %>
     <% @errors.each do |error| %>

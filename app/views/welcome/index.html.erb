@@ -1,5 +1,3 @@
-<h1 class="goodrents-title">GoodRents</h1>
-
 <% if logged_in? && has_reviews? %>
 	<div class="search-input-container">
 		<input id="search-input" class="controls" type="text" placeholder="Search Address">
@@ -9,6 +7,7 @@
 		<div class="reviews-container">
 			<div class="reviews-header">
 				<h2>Rental Reviews</h2>
+				<div class="underline"></div>
 			</div>
 			<div class="reviews-list"></div>
 		</div>
@@ -105,36 +104,6 @@
 				map.fitBounds(bounds);
 				map.setZoom(18);
 				map.setCenter(places[0].geometry.location);
-
-				// // get the places with a radius of 500 around the location
-				// infowindow = new google.maps.InfoWindow();
-				// var service = new google.maps.places.PlacesService(map);
-				// service.nearbySearch({
-				// 	location: places[0].geometry.location,
-				// 	radius: 500,
-				// 	type: ['store']
-				// }, callback);
-
-				// function callback(results, status) {
-				// 	if (status === google.maps.places.PlacesServiceStatus.OK) {
-				// 		for (var i = 0; i < results.length; i++) {
-				// 			createMarker(results[i]);
-				// 		}
-				// 	}
-				// }
-
-				// function createMarker(place) {
-				// 	var placeLoc = place.geometry.location;
-				// 	var marker = new google.maps.Marker({
-				// 		map: map,
-				// 		position: place.geometry.location
-				// 	});
-
-				// 	google.maps.event.addListener(marker, 'click', function() {
-				// 		infowindow.setContent(place.name);
-				// 		infowindow.open(map, this);
-				// 	});
-	   //          } 
 			})
 		}
 
@@ -148,8 +117,7 @@
 			$.ajax(options)
 			.done(function(response) {
 				if (response && response.length > 0) {
-					var smallHouse = "/assets/green-house-marker.png";
-					// debugger;
+					var smallHouse = "/green-house-marker.png";
 					response.forEach(function(review) {
 						var latLng = new google.maps.LatLng({ lat: parseFloat(review.lat), lng: parseFloat(review.long) });
 						var marker = new google.maps.Marker({
@@ -160,7 +128,6 @@
 						marker.addListener('click', function() {
 							// if there is a infowindow open, close it
 							if (infowindow) { infowindow.close() }
-							// debugger;
 							FindReviews(review.address)
 							infowindow = new google.maps.InfoWindow();
 							// var address = "<a onclick='FindReviews($(this).text())'>" + review.address + "</a>"
@@ -187,7 +154,6 @@
 			.done(function(response) {
 				if (response.length > 0) {
 					response.forEach(function(review) {
-						// debugger;
 						var reviewItem = 
 						"<a href='/reviews/" + review.review_details.id + "'>\
 							<div class='review'>\
@@ -195,7 +161,7 @@
 									<p>" + review.review_details.comment + "</p>\
 								</div>\
 								<div class='review-username'>\
-									<p>" + review.username + "</p>\
+									<p>Reviewed by: <span class='username'>" + review.username + "</span></p>\
 								</div>\
 							</div>\
 						</a>"
@@ -205,26 +171,26 @@
 					var createReview = 
 								"<div class='create-review-button-container'>\
 									<form action='/reviews/new/" + response[0].review_details.id + "' method='get'>\
-										<button class='create-review-button'>Create New Review</button>\
+										<button class='create-review-button-index btn btn-secondary'>Create New Review</button>\
 									</form>\
 								</div>"
 					$('.reviews-list').append(createReview)
 				} else {
 					var searchInput = $('#search-input').val();
-					// console.log('search', searchInput);
-					// debugger;
 					var item = 
-						"<span>\
-							No Reviews for this Property\
-						</span>\
-						<form action='/reviews/new' method='post'>\
-							<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>\
-							<input name='address' type='hidden' value='" + searchInput + "'>\
-							<input name='suburb' type='hidden' value='" + places[0].vicinity + "'>\
-							<input name='lat' type='hidden' value='" + places[0].geometry.location.lat() + "'>\
-							<input name='long' type='hidden' value='" + places[0].geometry.location.lng() + "'>\
-							<button>Create New Review</button>\
-						</form>"
+						"<div class='no-review-container'>\
+							<p class='no-reviews-text'>\
+								No Reviews for this Property\
+							</p>\
+							<form action='/reviews/new' method='post'>\
+								<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>\
+								<input name='address' type='hidden' value='" + searchInput + "'>\
+								<input name='suburb' type='hidden' value='" + places[0].vicinity + "'>\
+								<input name='lat' type='hidden' value='" + places[0].geometry.location.lat() + "'>\
+								<input name='long' type='hidden' value='" + places[0].geometry.location.lng() + "'>\
+								<button class='create-review-button btn btn-secondary'>Create New Review</button>\
+							</form>\
+						</div>"
 					$('.reviews-list').append(item);
 				}
 			})
@@ -237,13 +203,22 @@
 	</script>
 
 <% elsif logged_in? %>
-
-	<form action="/reviews/new" method="get">
-		<button>Create a Review</button>
-	</form>
-
+	<div class="first-review-container">
+		<h1 class="first-review-title">Create your first review to see the map</h1>
+		<form action="/reviews/new" method="get">
+			<button class="first-review-button btn btn-secondary">Create a Review</button>
+		</form>
+	</div>
+<% else %>
+	<div class="first-login">
+		<h1><span class="good">Good</span>Rents</h1>
+		<div class="first-login-details">
+			<a href="/login">
+				<h1>Please Login First</h1>
+			</a>
+		</div>
+	</div>
 <% end %>
-
 
 
 

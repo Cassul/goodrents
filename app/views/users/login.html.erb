@@ -1,17 +1,40 @@
 <%if !session[:user_name] %>
-    <form class="" action="/sessions" method="post">
-    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+    <div class="login-container-main">
+        <div class="login-container">
+            <h1 class="login-header"><span class="good">Good</span>Rents</h1>
+            <div class="login-form-container">
+                <form class="login-form" action="/sessions" method="post">
+                    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+                    <input type="text" name="email" value="" placeholder="Email">
+                    <input type="password" name="password" value="" placeholder="Password">
+                    <div class="login-button-container">
+                        <button class="login-button btn btn-secondary">Login</button>
+                    </div>
+                </form>
+            </div>
+            <% if flash[:error] %>
+                <div class="errors">
+                    <p class="errors-text"><%= flash[:error] %></p>
+                </div>
+            <% end %>
+            <div class="no-account-container">
+                <h2>Don't have an account?</h2>
+                <form class="" action="/users/new" method="get">
+                    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+                    <div class="signup-button-container">
+                        <button class="signup-button btn btn-secondary">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    <input type="text" name="email" value="" placeholder="Email"> <br>
-    <input type="password" name="password" value="" placeholder="Password"> <br>
-    <button >Login</button>
-    </form>
-    <hr>
-    <h2>Don't have an account?</h2>
-    <form class="" action="/users/new" method="get">
-        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-      <button>SignUp</button>
-    </form>
+    </div>
 <%else%>
     <h1>Already signed in as <%=session[:user_name]%></h1>
+    <p>unless you're trapped, then use </p>
+    <form class="" action="/sessions" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+        <button class="logout nav-link">LOGOUT</button>
+      </form>
 <%end%>

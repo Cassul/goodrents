@@ -1,30 +1,45 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<h1><%=@user.username%></h1>
-<%if session[:user_id] != @user.id%>
-  <div class="msgBox">
-    <a href="/messages/new?from=<%= session[:user_id] %>&to=<%= @user.id %>"><i class="far fa-comment-alt"></i> Message <%=@user.username%>
-    </a>
+<div class="user_show_wrapper">
+  <div class="username_user_show">
+    <h1><%= @user.username %></h1>
   </div>
-<%end%>
+  <%if session[:user_id] != @user.id%>
+    <div class="msgBox">
+      <a href="/messages/new?from=<%= session[:user_id] %>&to=<%= @user.id %>"><i class="far fa-comment-alt"></i> Message <%=@user.username%>
+      </a>
+    </div>
+  <%end%>
 
-<h2>All Reviews:</h2>
-<div class="wrapper">
-<%@reviews.each do |review|%>
-<div class="allReviews">
-  <a class='address' href="/reviews/<%=review.id%>"><%=review.address%></a>
-  <img class='small' src="<%=review.img%>" alt="">
-
-</div>
-<%end%>
-</div>
-<%if @comments.count > 0 %>
-  <h2>All comments:</h2>
-  <div class="allComments">
-    <%@comments.each do |comment|%>
+  <h4>All Reviews:</h4>
+  <div class="wrapper">
+  <%@reviews.each do |review|%>
+  <div class="allReviews">
+    <div>
+      <a class='address' href="/reviews/<%=review.id%>"><%=review.address%></a>
+    </div>
+    <div class="review_small_img">
+      <% if review.img.length > 0 %>
+      <img class='small' src="<%= review.img %>" alt="">
+      <% else %>
+      <img src="https://www.readjunk.com/wp-content/uploads/2015/09/no-image-found1-300x200.png">
+      <% end %>
+    </div>
+  </div>
+  <%end%>
+  </div>
+  <%if @comments.count > 0 %>
+    <div class="allComments">
+      <h4>All comments:</h4>
+      <ul>
+      <%@comments.each do |comment|%>
+      <li>
         <a href="/reviews/<%=comment.review_id%>"><%=comment.review.address%></a>
         <p><%=comment.body%></p>
-    <%end%>
-  </div>
-  <%else%>
-    <h2><%=@user.username%> hasn't made any comment yet</h2>
-<%end%>
+      </li>
+      <%end%>
+      </ul>
+    </div>
+    <%else%>
+      <h2><%=@user.username%> hasn't made any comment yet</h2>
+  <%end%>
+</div>

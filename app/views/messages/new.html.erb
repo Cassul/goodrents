@@ -1,5 +1,5 @@
 <div class="msgbox">
-  <h1><%= User.find(@recepient).username %></h1>
+  <h1 class="recepient_name"><%= User.find(@recepient).username %></h1>
   <hr>
   <div class="message-container">
     <div class="messages">
@@ -12,18 +12,20 @@
           >
           <div class="message-details">
             <p><%= message.body %></p>
-            <p><%= message.created_at %></p>
+            <p class="timestamp"><%= message.created_at %></p>
           </div>
         </div>
       <% end %>
     </div>
     <div id="message_input">
-      <form class="" action="/messages" method="post">
-         <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-         <input type="hidden" name="recepient_id" value="<%= params['to'] %>">
-         <input type="text" name="body">
-         <button>SUBMIT</button>
-      </form>
+      <div class="center_me">
+        <form class="" action="/messages" method="post">
+           <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+           <input type="hidden" name="recepient_id" value="<%= params['to'] %>">
+           <textarea class="form-control" name="body" rows="10" cols="50" placeholder="write your message"></textarea>
+           <button class="btn under_textarea btn-secondary">SUBMIT</button>
+        </form>
+      </div>
     </div>
   </div>
 

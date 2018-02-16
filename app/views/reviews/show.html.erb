@@ -1,11 +1,31 @@
-  <h1><%= @review.address %></h1>
-  <h2>Review by: <a href="/users/<%= @review.user_id %>"><%= User.find_by(id: @review.user_id).username%></a></h2>
-  <% if logged_in?
-    if  session[:user_id] === Review.find(params[:id])[:user_id] %>
-      <div>
-        <%= link_to "edit", edit_review_path(@review), class:"badge badge-info under_review" %>
-        <%= link_to "delete", review_path(@review), method: :delete ,  class:"badge badge-danger under_hint" %>
+<div class="review_wrapper">
+  <div class="img_and_review">
+    <div class="review_header">
+      <h1><%= @review.address %></h1>
+      <h4>Review by: <a href="/users/<%= @review.user_id %>"><%= User.find_by(id: @review.user_id).username%></a></h2>
+    </div>
+    <div class="review_box">
+      <div class="left_box">
+        <h3><%= @review.bedrooms %> bedroom <%= @review.property_type %></h2>
+        <p>Utilities: <div class='starReadOnly' data-rateyo-rating='<%= @review.utilities.to_i %>'></div></p>
+        <p>Landlord: <div class='starReadOnly' data-rateyo-rating='<%= @review.landlord.to_i %>'></div></p>
+        <p>Neighbours: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbours.to_i %>'></div></p>
+        <p>Neighbourhood: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbourhood.to_i %>'></div></p>
       </div>
+      <div class="right_box">
+        <p><%= @review.comment %></p>
+      </div>
+    </div>
+    <img class="review_image" src="<%= @review.img %>">
+  </div>
+  <br>
+  <div class="review_opt">
+    <% if logged_in?
+    if  session[:user_id] === Review.find(params[:id])[:user_id] %>
+      <p>This review is written by you. You can:  
+        <%= link_to "edit", edit_review_path(@review), class:"badge badge-info under_review" %>
+        <%= link_to "delete", review_path(@review), method: :delete ,  class:"badge badge-danger under_review" %>
+      </p>
       <%else%>
         <p id='likesCount'><%=Like.where(review_id:@review.id).count%></p>
 
@@ -14,20 +34,14 @@
         <input id='review_id'type="hidden" name="review_id" value="<%=@review.id%>">
     <% end %>
   <% end %>
-  <h2><%= @review.bedrooms %> bedroom <%= @review.property_type %></h2>
-  <!-- need to change to star ratings -->
 
-  <p>Utilities: <div class='starReadOnly' data-rateyo-rating='<%= @review.utilities.to_i %>'></div></p>
-  <p>Landlord: <div class='starReadOnly' data-rateyo-rating='<%= @review.landlord.to_i %>'></div></p>
-  <p>Neighbours: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbours.to_i %>'></div></p>
-  <p>Neighbourhood: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbourhood.to_i %>'></div></p>
-
-  <img src="<%= @review.img %>">
-  <br>
-  <div class="review_opt">
+  </div>
+  <div class="links_to_reviews">
     <div>
-      <a href="/reviews?suburb=<%= @review.suburb %>">Check all reviews for this suburb</a>
-      <a href="/reviews?address=<%= @review.address %>">Check other reviews for this property</a>
+      <a class="suburb text-primary" href="/reviews?suburb=<%= @review.suburb %>">Check all reviews for this suburb</a>
+    </div>
+    <div>
+      <a class="text-success" href="/reviews?address=<%= @review.address %>">Check other reviews for this property</a>
     </div>
   </div>
   <% if session[:user_id] %>
@@ -39,27 +53,31 @@
         <button>submit</button>
       </form>
     <% else %>
+    <div class="submit_comment">
       <form action="/comments" method="post">
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-        <input type="text" name="body" placeholder="leave your comment">
+        <textarea class="form-control" name="body" rows="8" cols="50" placeholder="leave your comment"></textarea>
         <input type="hidden" name="review" value="<%= @review.id %>">
         <input type="hidden" name="user_id" value="<%= session[:user_id] %>">
         <button>submit</button>
       </form>
+    </div>
     <% end %>
   <% end %>
 
   <% @comments.each do |comment| %>
-  <div class="col-sm-5">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="text-muted"><%= comment.created_at %></span>
-        <span class="text-muted">
-          by <a href="/users/<%= comment.user_id %>"><%= User.find_by(id: comment.user_id).username %></a>
-        </span>
-      </div>
-      <div class="panel-body">
-        <%= comment.body %>
+  <div class="comments">
+    <div class="comment">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="text-muted"><%= comment.created_at %></span>
+          <span class="text-muted">
+            by <a href="/users/<%= comment.user_id %>"><%= User.find_by(id: comment.user_id).username %></a>
+          </span>
+        </div>
+        <div class="panel-body">
+          <%= comment.body %>
+        </div>
       </div>
     </div>
     <% if session[:user_id] === comment.user_id %>
@@ -74,6 +92,7 @@
 
     <% end %>
   <% end %>
+</div>
 
   <script>
   console.log('banana phone')
@@ -93,7 +112,7 @@
               $.ajax(option)
               .done(function(res){
                     console.log(res)
-                    likesCount=Number(likesCount)+1
+                    likesCount = Number(likesCount) + 1
                     likesObj.text(likesCount)
               })
 
@@ -106,8 +125,8 @@
                     likesObj.text(likesCount)
               }
 
-              )}
-
+              )
+          }
       })
 
       // setup star rating in review (readyOnly)

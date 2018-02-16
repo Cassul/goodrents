@@ -1,13 +1,76 @@
 // Place all the styles related to the reviews controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#likesCount{
+
+#likesCount {
   display: inline-block;
   margin: 5px;
   background-color: #009c51;
   padding: 5px;
  }
-.color{
+
+.color {
   background-color: red;
   
 }
+
+.new-review-container {
+	margin: 5px;
+}
+
+.new-review-title {
+	margin: 25px 0 25px 50px;
+}
+
+.new-review-form {
+	display: flex;
+	flex-direction : column;
+	margin-left: 50px;
+}
+
+.new-review-top-container {
+	display: flex;
+}
+
+.ratings-container {
+	margin-left: 100px;
+}
+
+.ratings-container > * {
+	margin-bottom: 12px;
+}
+
+.new-review-bottom-container {
+	margin-top: 50px;
+}
+
+.propertyInfo {
+	display: flex;
+	flex-direction: column;
+}
+
+.propertyInfo > * {
+	margin-bottom: 8px;
+}
+
+.new-review-textarea {
+	resize: none;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.new-review-textarea:focus {
+	outline: none;
+}
+
+.create-review-button {
+	vertical-align: top;
+	margin-left: 50px;
+}
+
+.create-review-button-index {
+	font-size: 25px;
+}
+
+
+
