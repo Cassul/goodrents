@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
 	include SessionsHelper
 
+
 	def index
 	    if params['suburb']
 	    	@reviews_of_same_address = Review.where(suburb: params['suburb'])
@@ -8,9 +9,15 @@ class ReviewsController < ApplicationController
 	    @reviews = Review.where(address: params['address'])
  	 end
 
+
+
 	def show 
-	 	@review = Review.find(params[:id])
-	  	@comments = Comment.where(review_id: params[:id])
+
+		# pls dont remove this method,otherwise Like button will no longger work
+	  @review = Review.find(params[:id])
+	  @comments = Comment.where(review_id: params[:id])
+	  @liked = Like.where(review_id: params[:id], user_id: session[:user_id]).count > 0
+
 	end
 
 	def new

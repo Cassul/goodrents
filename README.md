@@ -40,5 +40,3 @@ Link to app on Heroku:
 3. Improve perfomance
 4. Need to work out how the icons will be grouped with different zoom
 5. When user press "back" keypad - possibility to return to the previous map zoom in the same are
-
-
