@@ -7,7 +7,6 @@
     <div class="review_box">
       <div class="left_box">
         <h3><%= @review.bedrooms %> bedroom <%= @review.property_type %></h2>
-        <!-- need to change to star ratings -->
         <p>Utilities: <div class='starReadOnly' data-rateyo-rating='<%= @review.utilities.to_i %>'></div></p>
         <p>Landlord: <div class='starReadOnly' data-rateyo-rating='<%= @review.landlord.to_i %>'></div></p>
         <p>Neighbours: <div class='starReadOnly' data-rateyo-rating='<%= @review.neighbours.to_i %>'></div></p>
@@ -112,7 +111,7 @@
               $.ajax(option)
               .done(function(res){
                     console.log(res)
-                    likesCount=Number(likesCount)+1
+                    likesCount = Number(likesCount) + 1
                     likesObj.text(likesCount)
               })
 
@@ -123,8 +122,8 @@
 
               }
 
-              )}
-
+              )
+          }
       })
 
       // setup star rating in review (readyOnly)
